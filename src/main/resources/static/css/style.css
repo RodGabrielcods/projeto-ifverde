@@ -1,0 +1,416 @@
+/* --- Configurações Gerais --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F1F8E9; /* Verde bem claro de fundo */
+    color: #333333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+a {
+    color: #4CAF50; /* Verde principal para links */
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- Cabeçalho (Header) --- */
+header {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #388E3C; /* Verde escuro para o logo */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+header nav a {
+    font-weight: bold;
+    color: #555555;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+header nav a:hover {
+    color: #4CAF50; /* Verde principal */
+}
+
+/* --- Estilo de "Card" (Cartão Branco) --- */
+.card-section {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* --- Botões --- */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #4CAF50; /* Verde principal */
+    color: #FFFFFF;
+}
+
+.btn-primary:hover {
+    background-color: #43A047; /* Verde um pouco mais escuro */
+    transform: scale(1.02);
+}
+
+.btn-secondary {
+    background-color: #FFFFFF;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+}
+
+.btn-secondary:hover {
+    background-color: #F1F8E9; /* Verde bem claro de fundo */
+    transform: scale(1.02);
+}
+
+.btn-full-width {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+
+/* --- Seção Sobre (Hero - index.html) --- */
+.hero-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-text {
+    flex: 1; /* Ocupa 50% do espaço */
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    color: #388E3C; /* Verde escuro */
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Para quebrar linha em telas menores */
+}
+
+.hero-image {
+    flex: 1; /* Ocupa 50% do espaço */
+    text-align: center;
+}
+
+.hero-image img {
+    border-radius: 8px;
+}
+
+/* --- Seção Produtos (index.html) --- */
+#produtos {
+    padding-top: 2rem;
+    text-align: center;
+}
+
+#produtos h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #388E3C;
+}
+
+.product-grid {
+    display: grid;
+    /* Cria colunas responsivas: auto-fit tenta encaixar o máximo de colunas de no min. 250px */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.product-card {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    overflow: hidden; /* Para a imagem não vazar */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Garante que a imagem cubra o espaço */
+}
+
+.product-card h3 {
+    font-size: 1.25rem;
+    margin: 1rem 1rem 0.5rem 1rem;
+    color: #333333;
+}
+
+.product-card p {
+    font-size: 0.9rem;
+    margin: 0 1rem 1rem 1rem;
+    color: #666666;
+}
+
+/* --- Página Calendário (calendario.html) --- */
+#planejamento h2 {
+    margin-bottom: 0.25rem;
+}
+#planejamento p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+#planejamento form {
+    display: flex;
+    flex-wrap: wrap; /* Para quebrar em telas menores */
+    gap: 1rem;
+    align-items: flex-end; /* Alinha os itens na parte de baixo */
+}
+
+#planejamento label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555555;
+    width: 100%; /* Ocupa a linha toda */
+}
+
+/* Campos do formulário de planejamento */
+#planejamento input[type="text"] {
+    flex-grow: 1; /* Ocupa o espaço que sobrar */
+    padding: 0.75rem;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#planejamento input[type="date"] {
+    padding: 0.65rem; /* Ajuste fino para altura */
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+}
+
+/* Calendário Visual */
+.calendar-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.calendar-header h2 {
+    color: #388E3C;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-grid div {
+    padding: 1rem;
+    text-align: center;
+    background-color: #FAFAFA;
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.calendar-grid .weekday {
+    background-color: transparent;
+    border: none;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.calendar-grid .day {
+    min-height: 80px;
+}
+
+.calendar-grid .empty-day {
+    background-color: #FFFFFF;
+    border: 1px solid #F5F5F5;
+}
+
+.calendar-grid .today {
+    background-color: #C8E6C9; /* Verde claro para "hoje" */
+    border-color: #8BC34A;
+}
+
+/* --- Páginas de Gestão (Estoque, Despesas, Histórico) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+table th, table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+table th {
+    background-color: #F9F9F9;
+    color: #555555;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+table tr:hover {
+    background-color: #F1F8E9; /* Verde bem claro */
+}
+
+/* Cores para entrada/saída no histórico */
+.entrada { color: #4CAF50; font-weight: bold; }
+.saida { color: #D32F2F; font-weight: bold; } /* Vermelho para despesa */
+
+/* Formulário Vertical (Pág. Despesas) */
+.form-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 600px;
+}
+
+.form-vertical label {
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.form-vertical input[type="text"],
+.form-vertical input[type="number"],
+.form-vertical input[type="date"] {
+    padding: 0.75rem;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.form-vertical .btn {
+    margin-top: 1rem;
+    align-self: flex-start; /* Alinha o botão à esquerda */
+}
+
+/* --- Rodapé (Footer) --- */
+footer {
+    background-color: #388E3C; /* Verde escuro */
+    color: #E8F5E9; /* Verde bem clarinho (quase branco) */
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* --- RESPONSIVIDADE (Para Celulares) --- */
+@media (max-width: 768px) {
+    
+    /* Ajusta o cabeçalho */
+    header .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    header nav ul {
+        flex-wrap: wrap; /* Quebra a linha do menu */
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    /* Ajusta a seção "Sobre" */
+    .hero-section {
+        flex-direction: column; /* Coloca o texto em cima da imagem */
+    }
+
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column; /* Botões um embaixo do outro */
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    /* Ajusta formulário de planejamento */
+    #planejamento form {
+        flex-direction: column;
+        align-items: stretch; /* Estica os campos */
+    }
+
+    /* Ajusta o calendário */
+    .calendar-grid div {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        min-height: 50px;
+    }
+    .calendar-grid .weekday {
+        font-size: 0.7rem;
+    }
+
+    /* Ajusta tabelas */
+    table {
+        /* Permite que a tabela role horizontalmente em telas pequenas */
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

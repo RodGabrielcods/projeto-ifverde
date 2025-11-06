@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFVerde - Gestão de Horta</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">IFVerde</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#sobre">Sobre</a></li>
+                    <li><a href="index.html#produtos">Produtos</a></li>
+                    <li><a href="calendario.html">Calendário</a></li>
+                    <li><a href="despesas.html">Despesas</a></li>
+                    <li><a href="historico.html">Histórico</a></li>
+                    <li><a href="estoque.html">Estoque</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="sobre" class="container card-section hero-section">
+            <div class="hero-text">
+                <h1>Gestão simples para sua horta</h1>
+                <p>Nosso objetivo é aproximar você do ritmo da terra, levando ferramentas de gestão simples até sua casa com praticidade e confiança. Ajudamos a agricultura familiar a controlar o estoque, registrar finanças e planejar colheitas.</p>
+                <div class="hero-buttons">
+                    <a href="/estoque" class="btn btn-primary">Cadastrar Produto</a>
+                    <a href="/despesas" class="btn btn-secondary">Registrar Despesa</a>
+                    <a href="/historico" class="btn btn-secondary">Registrar Venda</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/500x350.png?text=Imagem+da+Horta" alt="Ilustração de uma horta">
+            </div>
+        </section>
+
+        <section id="produtos" class="container">
+            <h2>Produtos da Horta</h2>
+            <p>Exemplos de produtos comuns na agricultura familiar</p>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200.png?text=Alface" alt="Alface">
+                    <h3>Alface</h3>
+                    <p>Verdura fresca, colhida na hora.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200.png?text=Tomate" alt="Tomate">
+                    <h3>Tomate</h3>
+                    <p>Ideal para molhos e saladas.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200.png?text=Cenoura" alt="Cenoura">
+                    <h3>Cenoura</h3>
+                    <p>Rica em vitaminas.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200.png?text=Batata" alt="Batata">
+                    <h3>Batata</h3>
+                    <p>Base para diversas receitas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

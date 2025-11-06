@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico - IFVerde</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">IFVerde</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#sobre">Sobre</a></li>
+                    <li><a href="index.html#produtos">Produtos</a></li>
+                    <li><a href="calendario.html">Calendário</a></li>
+                    <li><a href="despesas.html">Despesas</a></li>
+                    <li><a href="historico.html">Histórico</a></li>
+                    <li><a href="estoque.html">Estoque</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card-section">
+            <h1>Histórico Financeiro (Vendas e Despesas)</h1>
+            <p>Um resumo de todas as suas entradas e saídas.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Valor (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>04/11/2025</td>
+                        <td class="entrada">Venda</td>
+                        <td>Venda de 10 pés de alface</td>
+                        <td>+ 20,00</td>
+                    </tr>
+                    <tr>
+                        <td>03/11/2025</td>
+                        <td class="saida">Despesa</td>
+                        <td>Compra de adubo</td>
+                        <td>- 50,00</td>
+                    </tr>
+                     <tr>
+                        <td>02/11/2025</td>
+                        <td class="entrada">Venda</td>
+                        <td>Venda de 5kg de tomate</td>
+                        <td>+ 30,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
