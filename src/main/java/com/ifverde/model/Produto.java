@@ -4,21 +4,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data; // Importa do Lombok
+import lombok.Data;
 
-// @Entity informa ao JPA que esta classe é uma tabela no banco
-// @Data (Lombok) cria getters, setters, toString, etc. automaticamente
 @Entity
-@Data 
+@Data
 public class Produto {
 
-    // @Id define a chave primária
-    // @GeneratedValue diz que o ID será gerado automaticamente
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-    private Double quantidade;
-    private String unidade; // Ex: "unid.", "kg", "caixa"
+
+    private Double quantidade; // Ex: 100
+
+    private String unidade; // Ex: "unid.", "kg"
+
+    // Novos Campos
+    private Double valorTotalEstoque; // Ex: Gastei R$ 200,00 para produzir esses 100 itens
+
+    private Double precoUnitario; // Ex: R$ 2,00 (Calculado automaticamente)
 }

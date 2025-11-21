@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário Produto - IFVerde</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo">IFVerde 🌱</a>
+            <nav>
+                <ul>
+                    <li><a href="/estoque">Voltar para Estoque</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card-section" style="max-width: 600px; margin: 2rem auto;">
+            <h1>Dados do Produto</h1>
+            <p>Informe a quantidade e o valor total desse lote. O sistema calculará o preço unitário.</p>
+
+            <form th:action="@{/produto/salvar}" th:object="${produto}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="form-group">
+                    <label for="nome">Nome do Produto:</label>
+                    <input type="text" id="nome" th:field="*{nome}" placeholder="Ex: Alface Americana" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade Total:</label>
+                        <input type="number" step="0.1" id="quantidade" th:field="*{quantidade}" placeholder="Ex: 100"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="unidade">Unidade:</label>
+                        <select id="unidade" th:field="*{unidade}" required>
+                            <option value="unid.">Unidade (unid.)</option>
+                            <option value="kg">Quilograma (kg)</option>
+                            <option value="g">Grama (g)</option>
+                            <option value="litro">Litro (l)</option>
+                            <option value="maço">Maço</option>
+                            <option value="caixa">Caixa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="valorTotal">Valor Total do Lote Inteiro (R$):</label>
+                    <input type="number" step="0.01" id="valorTotal" th:field="*{valorTotalEstoque}"
+                        placeholder="Ex: Se o lote custar R$ 200 no total, digite 200"
+                        required>
+                    <small style="color: #94a3b8; display: block; margin-top: 5px;">Isso definirá o preço unitário
+                        automaticamente.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Salvar
+                    Produto</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

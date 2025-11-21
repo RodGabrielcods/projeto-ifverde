@@ -1,78 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFVerde - Gestão de Horta</title>
+    <title>IFVerde - Painel de Controle</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
 
+<body>
     <header>
         <div class="container">
-            <a href="index.html" class="logo">IFVerde</a>
+            <a href="/"><img src="/img/logo.png" alt="Logo IFVERDE"></a>
             <nav>
                 <ul>
-                    <li><a href="index.html#sobre">Sobre</a></li>
-                    <li><a href="index.html#produtos">Produtos</a></li>
-                    <li><a href="calendario.html">Calendário</a></li>
-                    <li><a href="despesas.html">Despesas</a></li>
-                    <li><a href="historico.html">Histórico</a></li>
-                    <li><a href="estoque.html">Estoque</a></li>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/estoque">Estoque</a></li>
+                    <li><a href="/vendas">Vendas</a></li>
+                    <li><a href="/despesas">Despesas</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
+                    <li><a href="/historico">Relatórios</a></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post" style="display: inline;">
+                            <button type="submit"
+                                style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: bold; font-size: 0.95rem;">Sair da Conta
+                                ➜</button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        <section id="sobre" class="container card-section hero-section">
-            <div class="hero-text">
-                <h1>Gestão simples para sua horta</h1>
-                <p>Nosso objetivo é aproximar você do ritmo da terra, levando ferramentas de gestão simples até sua casa com praticidade e confiança. Ajudamos a agricultura familiar a controlar o estoque, registrar finanças e planejar colheitas.</p>
-                <div class="hero-buttons">
-                    <a href="/estoque" class="btn btn-primary">Cadastrar Produto</a>
-                    <a href="/despesas" class="btn btn-secondary">Registrar Despesa</a>
-                    <a href="/historico" class="btn btn-secondary">Registrar Venda</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="https://via.placeholder.com/500x350.png?text=Imagem+da+Horta" alt="Ilustração de uma horta">
-            </div>
-        </section>
+    <main class="container">
+        <section class="card-section" style="text-align: center;">
+            <h1>Olá, <span sec:authentication="name" style="color: #4ade80;">Usuário</span>!</h1>
+            <p>Bem-vindo de volta à gestão da sua horta.</p>
 
-        <section id="produtos" class="container">
-            <h2>Produtos da Horta</h2>
-            <p>Exemplos de produtos comuns na agricultura familiar</p>
-            
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200.png?text=Alface" alt="Alface">
-                    <h3>Alface</h3>
-                    <p>Verdura fresca, colhida na hora.</p>
+            <div class="dashboard-grid">
+                <div class="stat-card" style="border-color: yellow;">
+                    <span class="stat-number" th:text="${totalProdutos}">0</span>
+                    <span class="stat-label">Produtos no Estoque</span>
                 </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200.png?text=Tomate" alt="Tomate">
-                    <h3>Tomate</h3>
-                    <p>Ideal para molhos e saladas.</p>
+                <div class="stat-card" style="border-color: #22c55e;">
+                    <span class="stat-number" th:text="${totalVendas}">0</span>
+                    <span class="stat-label">Vendas Realizadas</span>
                 </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200.png?text=Cenoura" alt="Cenoura">
-                    <h3>Cenoura</h3>
-                    <p>Rica em vitaminas.</p>
+                <div class="stat-card" style="border-color: #ef4444;">
+                    <span class="stat-number" th:text="${totalDespesas}">0</span>
+                    <span class="stat-label">Despesas Registradas</span>
                 </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200.png?text=Batata" alt="Batata">
-                    <h3>Batata</h3>
-                    <p>Base para diversas receitas.</p>
-                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="/estoque" class="btn btn-outline">📦 Gerenciar Estoque</a>
+                <a href="/vendas" class="btn btn-primary">💰 Registrar Venda</a>
+                <a href="/despesas" class="btn btn-danger">💸 Registrar Despesa</a>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+        <p>&copy; 2025 IFVerde. Projeto de Agricultura Familiar.</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,46 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendário - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
 
+<body>
     <header>
         <div class="container">
-            <a href="index.html" class="logo">IFVerde</a>
+            <a href="/" class="logo">IFVerde 🌱</a>
             <nav>
                 <ul>
-                    <li><a href="index.html#sobre">Sobre</a></li>
-                    <li><a href="index.html#produtos">Produtos</a></li>
-                    <li><a href="calendario.html">Calendário</a></li>
-                    <li><a href="despesas.html">Despesas</a></li>
-                    <li><a href="historico.html">Histórico</a></li>
-                    <li><a href="estoque.html">Estoque</a></li>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/estoque">Estoque</a></li>
+                    <li><a href="/vendas">Vendas</a></li>
+                    <li><a href="/despesas">Despesas</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
+                    <li><a href="/historico">Relatórios</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        
-        <section id="planejamento" class="card-section">
-            <h2>Planejamento</h2>
-            <p>Use o calendário para anotar colheitas</p>
-            <form id="form-lembrete">
-                <label for="lembrete">Adicionar lembrete</label>
-                <input type="text" id="lembrete" name="lembrete" placeholder="Ex: Colher alface">
-                <input type="date" id="data" name="data" required>
-                <button type="submit" class="btn btn-primary">Adicionar</button>
-            </form>
-        </section>
-
-        <section id="calendario-visual" class="card-section">
+        <section class="card-section" id="calendario-visual" style="text-align: center;">
             <div class="calendar-header">
-                <h2 id="month-year">Novembro 2025</h2>
-                </div>
+                <h2 id="month-year">Mês/Ano</h2>
+                <p>Acompanhe os dias do mês.</p>
+            </div>
+
             <div class="calendar-grid">
                 <div class="weekday">Dom</div>
                 <div class="weekday">Seg</div>
@@ -49,17 +39,14 @@
                 <div class="weekday">Qui</div>
                 <div class="weekday">Sex</div>
                 <div class="weekday">Sáb</div>
-
-                </div>
-            <button class="btn btn-secondary btn-full-width">Adicionar Lembrete</button>
+            </div>
         </section>
-
     </main>
 
     <footer>
-        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+        <p>&copy; 2025 IFVerde</p>
     </footer>
-
-    <script src="script.js"></script>
+    <script src="/javascript/script.js"></script>
 </body>
+
 </html>

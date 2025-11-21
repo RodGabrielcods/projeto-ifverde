@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -11,15 +10,15 @@
 <body>
     <header>
         <div class="container">
-            <a href="index.html" class="logo">IFVerde</a>
+            <a href="/" class="logo">IFVerde 🌱</a>
             <nav>
                 <ul>
-                    <li><a href="index.html#sobre">Sobre</a></li>
-                    <li><a href="index.html#produtos">Produtos</a></li>
-                    <li><a href="calendario.html">Calendário</a></li>
-                    <li><a href="despesas.html">Despesas</a></li>
-                    <li><a href="historico.html">Histórico</a></li>
-                    <li><a href="estoque.html">Estoque</a></li>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/estoque">Estoque</a></li>
+                    <li><a href="/vendas">Vendas</a></li>
+                    <li><a href="/despesas">Despesas</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
+                    <li><a href="/historico">Relatórios</a></li>
                 </ul>
             </nav>
         </div>
@@ -27,9 +26,13 @@
 
     <main class="container">
         <section class="card-section">
-            <h1>Controle de Estoque</h1>
-            <p>Adicione, edite ou remova produtos do seu estoque.</p>
-            <button class...="btn btn-primary">Adicionar Novo Produto</button>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>Estoque de Produtos</h1>
+                    <p>Veja o que você tem disponível para venda.</p>
+                </div>
+                <a href="/produto/novo" class="btn btn-primary">+ Novo Produto</a>
+            </div>
 
             <table>
                 <thead>
@@ -37,32 +40,32 @@
                         <th>Produto</th>
                         <th>Quantidade</th>
                         <th>Unidade</th>
-                        <th>Ações</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="produto : ${listaDeProdutos}">
                         <td th:text="${produto.nome}">Alface</td>
-                        <td th:text="${produto.quantidade}">50</td>
+                        <td th:text="${produto.quantidade}">10</td>
                         <td th:text="${produto.unidade}">unid.</td>
-                        <td>
-                            <a th:href="@{/api/produtos/{id}(id=${produto.id})}">Editar</a> |
-                            <a th:href="@{/api/produtos/{id}(id=${produto.id})}">Excluir</a>
+                        <td class="text-center">
+                            <a th:href="@{/produto/editar/{id}(id=${produto.id})}"
+                                class="btn btn-secondary btn-sm">Editar</a>
+                            <a th:href="@{/produto/excluir/{id}(id=${produto.id})}" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Tem certeza que deseja excluir este produto?');">Excluir</a>
                         </td>
                     </tr>
-
-                    <tr th:if="${listaDeProdutos.isEmpty()}">
-                        <td colspan="4">Nenhum produto cadastrado no estoque ainda.</td>
+                    <tr th:if="${#lists.isEmpty(listaDeProdutos)}">
+                        <td colspan="4" class="text-center">Nenhum produto cadastrado. Clique em "Novo Produto" para
+                            começar!</td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
-
     <footer>
-        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+        <p>&copy; 2025 IFVerde</p>
     </footer>
-    <script src="script.js"></script>
 </body>
 
 </html>

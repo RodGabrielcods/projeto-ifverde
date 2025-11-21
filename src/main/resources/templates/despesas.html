@@ -1,51 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Despesas - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
     <header>
         <div class="container">
-            <a href="index.html" class="logo">IFVerde</a>
+            <a href="/" class="logo">IFVerde 🌱</a>
             <nav>
                 <ul>
-                    <li><a href="index.html#sobre">Sobre</a></li>
-                    <li><a href="index.html#produtos">Produtos</a></li>
-                    <li><a href="calendario.html">Calendário</a></li>
-                    <li><a href="despesas.html">Despesas</a></li>
-                    <li><a href="historico.html">Histórico</a></li>
-                    <li><a href="estoque.html">Estoque</a></li>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/estoque">Estoque</a></li>
+                    <li><a href="/vendas">Vendas</a></li>
+                    <li><a href="/despesas">Despesas</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
+                    <li><a href="/historico">Relatórios</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        <section class="card-section">
-            <h1>Registro de Despesas</h1>
-            <p>Anote aqui todos os gastos da sua produção.</p>
-            
-            <form id="form-despesa" class="form-vertical">
-                <label for="desc-despesa">Descrição da Despesa</label>
-                <input type="text" id="desc-despesa" placeholder="Ex: Compra de adubo">
-                
-                <label for="valor-despesa">Valor (R$)</label>
-                <input type="number" id="valor-despesa" placeholder="25.50">
-                
-                <label for="data-despesa">Data</label>
-                <input type="date" id="data-despesa">
-                
-                <button type="submit" class="btn btn-primary">Salvar Despesa</button>
+        <section class="card-section" style="border-top: 4px solid #e74c3c;">
+            <h1 style="color: #c0392b;">Registrar Despesa</h1>
+            <p>Gastos com adubo, sementes, ferramentas, etc.</p>
+
+            <form th:action="@{/despesa/salvar}" th:object="${novaDespesa}" method="post">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Descrição da Despesa</label>
+                        <input type="text" th:field="*{descricao}" placeholder="Ex: Compra de Sementes" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Valor (R$)</label>
+                        <input type="number" step="0.01" th:field="*{valor}" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" th:field="*{data}" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-danger">Salvar Despesa</button>
             </form>
         </section>
-    </main>
 
+        <section class="card-section">
+            <h2>Últimas Despesas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Valor (R$)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="despesa : ${listaDespesas}">
+                        <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}">Data</td>
+                        <td th:text="${despesa.descricao}">Desc</td>
+                        <td style="color: #c0392b; font-weight: bold;" th:text="'R$ ' + ${despesa.valor}">Val</td>
+                        <td class="text-right">
+                            <a th:href="@{/despesa/excluir/{id}(id=${despesa.id})}" style="color: #999;"
+                                onclick="return confirm('Excluir despesa?')">✕</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(listaDespesas)}">
+                        <td colspan="4" class="text-center">Nenhuma despesa registrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
     <footer>
-        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+        <p>&copy; 2025 IFVerde</p>
     </footer>
-    <script src="script.js"></script>
 </body>
+
 </html>

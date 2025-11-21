@@ -54,34 +54,4 @@ document.addEventListener('DOMContentLoaded', function() {
             calendarioGrid.appendChild(diaElemento);
         }
     }
-
-
-    // --- 2. LÓGICA DO FORMULÁRIO DE PLANEJAMENTO ---
-
-    // Tenta encontrar o formulário de lembrete
-    const formLembrete = document.getElementById('form-lembrete');
-    
-    // Só executa se o formulário existir na página
-    if (formLembrete) {
-        formLembrete.addEventListener('submit', function(evento) {
-            // Previne o comportamento padrão do formulário (que é recarregar a página)
-            evento.preventDefault(); 
-            
-            // Pega os valores dos campos
-            const lembreteTexto = document.getElementById('lembrete').value;
-            const dataTexto = document.getElementById('data').value;
-            
-            // Exibe os dados no console do navegador (F12 para ver)
-            console.log('--- Novo Lembrete Adicionado ---');
-            console.log('Tarefa:', lembreteTexto);
-            console.log('Data:', dataTexto);
-            
-            // Avisa o usuário (em um app real, salvaria isso)
-            alert('Lembrete "' + lembreteTexto + '" adicionado para ' + dataTexto);
-            
-            // Limpa o formulário
-            formLembrete.reset();
-        });
-    }
-
 });

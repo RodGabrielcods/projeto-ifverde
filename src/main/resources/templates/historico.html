@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico - IFVerde</title>
+    <title>Relatório Financeiro - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
     <header>
         <div class="container">
-            <a href="index.html" class="logo">IFVerde</a>
+            <a href="/" class="logo">IFVerde 🌱</a>
             <nav>
                 <ul>
-                    <li><a href="index.html#sobre">Sobre</a></li>
-                    <li><a href="index.html#produtos">Produtos</a></li>
-                    <li><a href="calendario.html">Calendário</a></li>
-                    <li><a href="despesas.html">Despesas</a></li>
-                    <li><a href="historico.html">Histórico</a></li>
-                    <li><a href="estoque.html">Estoque</a></li>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/estoque">Estoque</a></li>
+                    <li><a href="/vendas">Vendas</a></li>
+                    <li><a href="/despesas">Despesas</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
+                    <li><a href="/historico">Relatórios</a></li>
                 </ul>
             </nav>
         </div>
@@ -25,45 +26,44 @@
 
     <main class="container">
         <section class="card-section">
-            <h1>Histórico Financeiro (Vendas e Despesas)</h1>
-            <p>Um resumo de todas as suas entradas e saídas.</p>
-            
+            <h1>Extrato Financeiro Completo</h1>
+            <p>Todas as suas movimentações de Vendas e Despesas.</p>
+
             <table>
                 <thead>
                     <tr>
                         <th>Data</th>
                         <th>Tipo</th>
                         <th>Descrição</th>
-                        <th>Valor (R$)</th>
+                        <th class="text-right">Valor (R$)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>04/11/2025</td>
-                        <td class="entrada">Venda</td>
-                        <td>Venda de 10 pés de alface</td>
-                        <td>+ 20,00</td>
+                    <tr th:each="venda : ${listaVendas}">
+                        <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
+                        <td><span class="badge badge-entrada">VENDA</span></td>
+                        <td th:text="${venda.descricao}"></td>
+                        <td class="text-right" style="color: #27ae60;">+ R$ <span th:text="${venda.valor}"></span></td>
                     </tr>
-                    <tr>
-                        <td>03/11/2025</td>
-                        <td class="saida">Despesa</td>
-                        <td>Compra de adubo</td>
-                        <td>- 50,00</td>
+
+                    <tr th:each="despesa : ${listaDespesas}">
+                        <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}"></td>
+                        <td><span class="badge badge-saida">DESPESA</span></td>
+                        <td th:text="${despesa.descricao}"></td>
+                        <td class="text-right" style="color: #e74c3c;">- R$ <span th:text="${despesa.valor}"></span>
+                        </td>
                     </tr>
-                     <tr>
-                        <td>02/11/2025</td>
-                        <td class="entrada">Venda</td>
-                        <td>Venda de 5kg de tomate</td>
-                        <td>+ 30,00</td>
+
+                    <tr th:if="${#lists.isEmpty(listaVendas) and #lists.isEmpty(listaDespesas)}">
+                        <td colspan="4" class="text-center">Sem movimentações registradas.</td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
-
     <footer>
-        <p>&copy; 2025 IFVerde. Desenvolvido para o projeto de conclusão de curso.</p>
+        <p>&copy; 2025 IFVerde</p>
     </footer>
-    <script src="script.js"></script>
 </body>
+
 </html>
