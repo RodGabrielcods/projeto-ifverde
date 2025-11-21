@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Despesas - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -50,30 +51,32 @@
 
         <section class="card-section">
             <h2>Últimas Despesas</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>Valor (R$)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="despesa : ${listaDespesas}">
-                        <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}">Data</td>
-                        <td th:text="${despesa.descricao}">Desc</td>
-                        <td style="color: #c0392b; font-weight: bold;" th:text="'R$ ' + ${despesa.valor}">Val</td>
-                        <td class="text-right">
-                            <a th:href="@{/despesa/excluir/{id}(id=${despesa.id})}" style="color: #999;"
-                                onclick="return confirm('Excluir despesa?')">✕</a>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(listaDespesas)}">
-                        <td colspan="4" class="text-center">Nenhuma despesa registrada.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class=".table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Valor (R$)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="despesa : ${listaDespesas}">
+                            <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}">Data</td>
+                            <td th:text="${despesa.descricao}">Desc</td>
+                            <td style="color: #c0392b; font-weight: bold;" th:text="'R$ ' + ${despesa.valor}">Val</td>
+                            <td class="text-right">
+                                <a th:href="@{/despesa/excluir/{id}(id=${despesa.id})}" style="color: #999;"
+                                    onclick="return confirm('Excluir despesa?')">✕</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(listaDespesas)}">
+                            <td colspan="4" class="text-center">Nenhuma despesa registrada.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
     <footer>

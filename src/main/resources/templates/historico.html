@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório Financeiro - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -29,36 +30,39 @@
             <h1>Extrato Financeiro Completo</h1>
             <p>Todas as suas movimentações de Vendas e Despesas.</p>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Tipo</th>
-                        <th>Descrição</th>
-                        <th class="text-right">Valor (R$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="venda : ${listaVendas}">
-                        <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
-                        <td><span class="badge badge-entrada">VENDA</span></td>
-                        <td th:text="${venda.descricao}"></td>
-                        <td class="text-right" style="color: #27ae60;">+ R$ <span th:text="${venda.valor}"></span></td>
-                    </tr>
+            <div class=".table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                            <th class="text-right">Valor (R$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="venda : ${listaVendas}">
+                            <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
+                            <td><span class="badge badge-entrada">VENDA</span></td>
+                            <td th:text="${venda.descricao}"></td>
+                            <td class="text-right" style="color: #27ae60;">+ R$ <span th:text="${venda.valor}"></span>
+                            </td>
+                        </tr>
 
-                    <tr th:each="despesa : ${listaDespesas}">
-                        <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}"></td>
-                        <td><span class="badge badge-saida">DESPESA</span></td>
-                        <td th:text="${despesa.descricao}"></td>
-                        <td class="text-right" style="color: #e74c3c;">- R$ <span th:text="${despesa.valor}"></span>
-                        </td>
-                    </tr>
+                        <tr th:each="despesa : ${listaDespesas}">
+                            <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}"></td>
+                            <td><span class="badge badge-saida">DESPESA</span></td>
+                            <td th:text="${despesa.descricao}"></td>
+                            <td class="text-right" style="color: #e74c3c;">- R$ <span th:text="${despesa.valor}"></span>
+                            </td>
+                        </tr>
 
-                    <tr th:if="${#lists.isEmpty(listaVendas) and #lists.isEmpty(listaDespesas)}">
-                        <td colspan="4" class="text-center">Sem movimentações registradas.</td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr th:if="${#lists.isEmpty(listaVendas) and #lists.isEmpty(listaDespesas)}">
+                            <td colspan="4" class="text-center">Sem movimentações registradas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
     <footer>
