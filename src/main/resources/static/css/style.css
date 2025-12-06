@@ -480,4 +480,16 @@ footer {
         padding: 1.5rem;
         width: 95%;
     }
+
+    /* 5. Ajuste Calendário Mobile (Adicionado) */
+    .calendar-grid div {
+        padding: 0.2rem;
+        min-height: 50px;
+        font-size: 0.8rem;
+    }
+
+    .calendar-grid .weekday {
+        font-size: 0.7rem;
+        padding: 0.2rem;
+    }
 }
