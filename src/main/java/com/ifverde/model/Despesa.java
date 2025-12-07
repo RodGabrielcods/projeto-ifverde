@@ -1,9 +1,6 @@
 package com.ifverde.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -15,7 +12,12 @@ public class Despesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descricao; // Ex: "Compra de adubo"
-    private Double valor; // Ex: 50.00
+    private String descricao;
+    private Double valor;
     private LocalDate data;
+
+    // NOVO: Vincula a despesa ao usuário dono
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

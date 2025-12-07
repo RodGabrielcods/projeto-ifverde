@@ -1,9 +1,6 @@
 package com.ifverde.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -15,13 +12,13 @@ public class Produto {
     private Long id;
 
     private String nome;
+    private Double quantidade;
+    private String unidade;
+    private Double valorTotalEstoque;
+    private Double precoUnitario;
 
-    private Double quantidade; // Ex: 100
-
-    private String unidade; // Ex: "unid.", "kg"
-
-    // Novos Campos
-    private Double valorTotalEstoque; // Ex: Gastei R$ 200,00 para produzir esses 100 itens
-
-    private Double precoUnitario; // Ex: R$ 2,00 (Calculado automaticamente)
+    // NOVO: Vincula o produto ao usuário dono
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

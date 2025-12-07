@@ -1,14 +1,18 @@
 package com.ifverde.repository;
 
 import com.ifverde.model.Produto;
+import com.ifverde.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.Optional;
 
-// Esta interface herda de JpaRepository, passando a Entidade (Produto) 
-// e o tipo da chave primária (Long)
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
-    // Spring Data JPA já nos dá:
-    // save() - (Cria e Atualiza)
-    // findById() - (Busca 1)
-    // findAll() - (Busca todos)
-    // deleteById() - (Deleta)
+    // Busca todos os produtos DESTE usuário
+    List<Produto> findByUsuario(Usuario usuario);
+
+    // Conta produtos DESTE usuário (para o dashboard)
+    long countByUsuario(Usuario usuario);
+
+    // Garante que só podemos editar/excluir um produto se ele for do usuário logado
+    Optional<Produto> findByIdAndUsuario(Long id, Usuario usuario);
 }
