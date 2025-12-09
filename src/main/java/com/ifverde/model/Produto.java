@@ -17,7 +17,6 @@ public class Produto {
     private Double valorTotalEstoque;
     private Double precoUnitario;
 
-    // NOVO: Vincula o produto ao usuário dono
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

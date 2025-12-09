@@ -1,4 +1,3 @@
-/* --- Configurações Gerais (Dark Mode) --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,9 +5,7 @@
 }
 
 body {
-    /* Fundo Escuro Profundo (Dark Slate) - Melhor que preto puro */
     background-color: #0f172a;
-    /* Texto Claro Suave */
     color: #cbd5e1;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -32,9 +29,7 @@ ul {
     list-style: none;
 }
 
-/* --- Cabeçalho (Header) --- */
 header {
-    /* Fundo do cabeçalho um pouco mais claro que o fundo do site */
     background-color: #1e293b;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     position: sticky;
@@ -62,48 +57,39 @@ nav ul {
 nav a {
     font-weight: 600;
     color: #ffffff;
-    /* Cinza médio */
     font-size: 0.95rem;
 }
 
 nav a:hover {
     color: #4ade80;
-    /* Verde brilhante ao passar o mouse */
 }
 
-/* --- Cartões (Cards) --- */
 .card-section {
-    /* Fundo dos cartões: Cinza Azulado Escuro */
     background: #1e293b;
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     margin-top: 2rem;
     border: 1px solid #334155;
-    /* Borda sutil para definição */
 }
 
 h1 {
     color: #f1f5f9;
-    /* Quase branco */
     margin-bottom: 0.5rem;
     font-size: 1.8rem;
 }
 
 h2 {
     color: #4ade80;
-    /* Verde destaque */
     margin-bottom: 1rem;
     font-size: 1.4rem;
 }
 
 p {
     color: #ffffff;
-    /* Texto de apoio cinza */
     margin-bottom: 1.5rem;
 }
 
-/* --- Botões (Alto Contraste no Escuro) --- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -119,21 +105,17 @@ p {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Botão Principal: Verde Vibrante */
 .btn-primary {
     background-color: #22c55e;
     color: #022c22;
-    /* Texto escuro no botão verde para contraste máximo */
 }
 
 .btn-primary:hover {
     background-color: #16a34a;
     transform: translateY(-2px);
     box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
-    /* Efeito de brilho (Glow) */
 }
 
-/* Botão de Perigo: Vermelho */
 .btn-danger {
     background-color: #ef4444;
     color: #ffffff;
@@ -145,7 +127,6 @@ p {
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
 }
 
-/* Botão Secundário: Cinza Escuro */
 .btn-secondary {
     background-color: #334155;
     color: #f1f5f9;
@@ -156,7 +137,6 @@ p {
     background-color: #475569;
 }
 
-/* Botão Outline */
 .btn-outline {
     background-color: #ffff00;
     color: #022c22;
@@ -172,7 +152,6 @@ p {
     font-size: 0.85rem;
 }
 
-/* --- Formulários (Estilo Dark) --- */
 .form-group {
     margin-bottom: 1.2rem;
 }
@@ -185,7 +164,6 @@ label {
     font-size: 0.9rem;
 }
 
-/* ADICIONEI: input[type="password"] na lista abaixo */
 input[type="text"],
 input[type="number"],
 input[type="date"],
@@ -194,16 +172,13 @@ select {
     width: 100%;
     padding: 0.75rem;
     background-color: #0f172a;
-    /* Fundo escuro */
     border: 1px solid #475569;
     border-radius: 6px;
     font-size: 1rem;
     color: #f1f5f9;
-    /* Texto claro */
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Placeholder mais claro */
 ::placeholder {
     color: #64748b;
 }
@@ -212,11 +187,9 @@ input:focus,
 select:focus {
     outline: none;
     border-color: #4ade80;
-    /* Borda verde brilhante */
     box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
 }
 
-/* Corrige ícone de calendário branco no Chrome/Edge */
 ::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
@@ -232,7 +205,6 @@ select:focus {
     min-width: 200px;
 }
 
-/* --- Tabelas (Dark Mode) --- */
 table {
     width: 100%;
     border-collapse: separate;
@@ -248,12 +220,10 @@ td {
     padding: 1rem 1.2rem;
     text-align: left;
     border-bottom: 1px solid #334155;
-    /* Linhas divisórias escuras */
 }
 
 th {
     background-color: #0f172a;
-    /* Cabeçalho mais escuro que o card */
     color: #ffffff;
     font-weight: 700;
     text-transform: uppercase;
@@ -263,7 +233,6 @@ th {
 
 tr:hover td {
     background-color: #293548;
-    /* Highlight sutil na linha */
 }
 
 td {
@@ -278,7 +247,6 @@ td {
     text-align: center;
 }
 
-/* Badges */
 .badge {
     padding: 0.35rem 0.7rem;
     border-radius: 9999px;
@@ -289,21 +257,16 @@ td {
 
 .badge-entrada {
     background-color: #064e3b;
-    /* Fundo verde bem escuro */
     color: #4ade80;
-    /* Texto verde neon */
     border: 1px solid #059669;
 }
 
 .badge-saida {
     background-color: #450a0a;
-    /* Fundo vermelho bem escuro */
     color: #f87171;
-    /* Texto vermelho claro */
     border: 1px solid #b91c1c;
 }
 
-/* --- Dashboard Grid --- */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -340,13 +303,11 @@ td {
     text-transform: uppercase;
 }
 
-/* --- Calendário (Dark) --- */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 1px;
     background-color: #475569;
-    /* Cor das linhas da grade */
     border: 1px solid #475569;
     border-radius: 8px;
     overflow: hidden;
@@ -354,7 +315,6 @@ td {
 
 .calendar-grid div {
     background-color: #1e293b;
-    /* Fundo dos dias */
     padding: 0.8rem;
     min-height: 80px;
     font-weight: 600;
@@ -363,7 +323,6 @@ td {
 
 .calendar-grid .weekday {
     background-color: #0f172a;
-    /* Cabeçalho dos dias da semana */
     color: #94a3b8;
     text-align: center;
     min-height: auto;
@@ -374,17 +333,14 @@ td {
 
 .calendar-grid .today {
     background-color: #14532d;
-    /* Verde escuro translúcido */
     color: #ffffff;
     border: 2px solid #22c55e;
 }
 
 .calendar-grid .empty-day {
     background-color: #182333;
-    /* Diferencia dias vazios */
 }
 
-/* --- Footer --- */
 footer {
     text-align: center;
     padding: 2rem;
@@ -394,28 +350,21 @@ footer {
     border-top: 1px solid #1e293b;
 }
 
-/* --- RESPONSIVIDADE (MOBILE) --- */
 @media (max-width: 768px) {
 
-    /* 1. Ajuste Geral do Container */
     .container {
         width: 95%;
-        /* Aproveita mais a tela no celular */
         padding-bottom: 5rem;
-        /* Espaço extra no fim para rolagem */
     }
 
-    /* 2. Cabeçalho e Menu (Header) */
     header .container {
         flex-direction: column;
-        /* Empilha Logo e Menu */
         text-align: center;
         gap: 1rem;
     }
 
     nav ul {
         flex-wrap: wrap;
-        /* Permite que os links quebrem linha */
         justify-content: center;
         gap: 0.8rem;
         padding: 0;
@@ -425,34 +374,26 @@ footer {
         display: inline-block;
         padding: 0.5rem 0.8rem;
         background-color: #334155;
-        /* Botãozinho de fundo para facilitar o toque */
         border-radius: 6px;
         font-size: 0.9rem;
     }
 
-    /* 3. Formulários */
     .form-row {
         flex-direction: column;
-        /* Empilha os inputs um embaixo do outro */
         gap: 0;
     }
 
     .form-group {
         min-width: 100%;
-        /* Garante largura total */
     }
 
     input,
     select,
     button {
         font-size: 16px;
-        /* Evita zoom automático no iPhone ao clicar */
         min-height: 45px;
-        /* Altura mínima confortável para o dedo */
     }
 
-    /* 4. Tabelas (Rolagem Horizontal) */
-    /* Criamos uma classe para permitir rolar a tabela lateralmente */
     .table-responsive {
         width: 100%;
         overflow-x: auto;
@@ -466,22 +407,17 @@ footer {
         margin-top: 0;
         border: none;
         min-width: 600px;
-        /* Força a tabela a ter um tamanho mínimo para não esmagar */
     }
 
-    /* Ajuste nos Cartões de Dashboard (index) */
     .dashboard-grid {
         grid-template-columns: 1fr;
-        /* Uma coluna por vez */
     }
 
-    /* Ajuste na tela de Login */
     .login-card {
         padding: 1.5rem;
         width: 95%;
     }
 
-    /* 5. Ajuste Calendário Mobile (Adicionado) */
     .calendar-grid div {
         padding: 0.2rem;
         min-height: 50px;

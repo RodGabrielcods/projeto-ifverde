@@ -15,8 +15,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true) // Não permite dois usuários com mesmo login
+    @Column(unique = true)
     private String username;
 
-    private String password; // Será salva criptografada
+    private String password;
 }

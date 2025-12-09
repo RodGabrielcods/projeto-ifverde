@@ -18,29 +18,24 @@ public class LoginController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Tela de Login
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    // Tela de Cadastro
     @GetMapping("/cadastro")
     public String cadastro(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "cadastro";
     }
 
-    // Processar Cadastro
     @PostMapping("/usuario/registrar")
     public String registrarUsuario(Usuario usuario, Model model) {
-        // Verifica se já existe
         if (usuarioRepository.findByUsername(usuario.getUsername()).isPresent()) {
             model.addAttribute("erro", "Este nome de usuário já está em uso.");
             return "cadastro";
         }
 
-        // Criptografa a senha antes de salvar
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
 

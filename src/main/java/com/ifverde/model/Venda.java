@@ -21,7 +21,6 @@ public class Venda {
     private Double valor;
     private LocalDate data;
 
-    // NOVO: Vincula a venda ao usuário dono
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -16,20 +15,17 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    // CREATE (Criar)
     @PostMapping
     public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
         Produto novoProduto = produtoRepository.save(produto);
         return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
     }
 
-    // READ (Ler Todos)
     @GetMapping
     public List<Produto> listarProdutos() {
         return produtoRepository.findAll();
     }
 
-    // READ (Ler Um)
     @GetMapping("/{id}")
     public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable Long id) {
         return produtoRepository.findById(id)
@@ -37,7 +33,6 @@ public class ProdutoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // UPDATE (Atualizar)
     @PutMapping("/{id}")
     public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
         return produtoRepository.findById(id)
@@ -51,7 +46,6 @@ public class ProdutoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // DELETE (Deletar)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
         if (produtoRepository.existsById(id)) {

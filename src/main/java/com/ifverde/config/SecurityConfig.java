@@ -19,11 +19,9 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .authorizeHttpRequests((requests) -> requests
-                                                // ADICIONEI "/img/**" AQUI NA LISTA
                                                 .requestMatchers("/css/**", "/javascript/**", "/img/**", "/login",
                                                                 "/cadastro", "/usuario/registrar")
                                                 .permitAll()
-                                                // Qualquer outra página exige login
                                                 .anyRequest().authenticated())
                                 .formLogin((form) -> form
                                                 .loginPage("/login")
@@ -36,7 +34,6 @@ public class SecurityConfig {
                 return http.build();
         }
 
-        // Serviço que busca o usuário no banco para o Spring Security
         @Bean
         public UserDetailsService userDetailsService(UsuarioRepository usuarioRepository) {
                 return username -> usuarioRepository.findByUsername(username)
@@ -48,7 +45,6 @@ public class SecurityConfig {
                                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
         }
 
-        // Criptografia de Senha (BCrypt é muito seguro)
         @Bean
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
