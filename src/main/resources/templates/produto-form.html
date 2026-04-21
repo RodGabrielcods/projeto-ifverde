@@ -87,7 +87,6 @@
                     <span class="valor-legenda">Preço por unidade (ex: se vende por R$ 2,50 cada, digite 2.50)</span>
                 </div>
 
-                <!-- Preview do valor total -->
                 <div class="valor-total-preview">
                     <p><strong>Resumo:</strong></p>
                     <p id="resumoQtd">Quantidade: 0</p>
@@ -111,16 +110,13 @@
 
             const valorTotal = quantidade * precoUnitario;
 
-            // Atualizar campo oculto
             document.getElementById('valorTotalEstoque').value = valorTotal.toFixed(2);
 
-            // Atualizar preview
             document.getElementById('resumoQtd').textContent = `Quantidade: ${quantidade.toFixed(1)} ${unidade}`;
             document.getElementById('resumoPreco').textContent = `Preço Unitário: R$ ${precoUnitario.toFixed(2)}`;
             document.getElementById('resumoTotal').textContent = `Valor Total do Estoque: R$ ${valorTotal.toFixed(2)}`;
         }
 
-        // Executar ao carregar a página (caso seja edição)
         document.addEventListener('DOMContentLoaded', function() {
             atualizarValorTotal();
         });

@@ -26,13 +26,21 @@
             <a href="/"><img src="/img/logo.png" alt="Logo IFVERDE"></a>
             <nav>
                 <ul>
-                    <li><a href="/">Início</a></li>
-                    <li><a href="/estoque">Estoque</a></li>
-                    <li><a href="/vendas">Vendas</a></li>
-                    <li><a href="/despesas">Despesas</a></li>
-                    <li><a href="/calendario">Calendário</a></li>
-                    <li><a href="/historico">Relatórios</a></li>
-                    <li><a href="/manual">Manual do Usuário</a></li>
+                    <li><a href="/">🏠 Início</a></li>
+                    <li><a href="/estoque">📦 Estoque</a></li>
+                    <li><a href="/vendas">💰 Vendas</a></li>
+                    <li><a href="/despesas">💸 Despesas</a></li>
+                    <li><a href="/calendario">📅 Calendário</a></li>
+                    <li><a href="/historico">📊 Relatórios</a></li>
+                    <li><a href="/manual">📖 Manual</a></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
+                            <button type="submit"
+                                style="background: none; border: none; padding: 0.7rem 1.2rem; color: #ef4444; cursor: pointer; font-weight: 600; font-size: 0.95rem; border-radius: 8px; transition: all 0.3s ease; border: 1px solid #ef4444;">
+                                🚪 Sair
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -46,11 +54,12 @@
 
         <section class="card-section">
             <h1>Registrar Nova Venda</h1>
+            <p>Selecione o produto e a quantidade. O valor será calculado automaticamente.</p>
+
             <div style="margin-bottom: 1.5rem; text-align: right;">
                 <button class="btn btn-secondary" onclick="exportarVendasCSV()">📥 Exportar Vendas</button>
                 <button class="btn btn-secondary" onclick="gerarVendasPDF()">📊 Gerar PDF</button>
             </div>
-            <p>Selecione o produto e a quantidade. O valor será calculado automaticamente.</p>
 
             <form th:action="@{/venda/salvar}" th:object="${novaVenda}" method="post">
                 <div class="form-row">
@@ -140,39 +149,32 @@
         <p>&copy; 2025 IFVerde</p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         function calcularTotal() {
-            // 1. Pega o elemento SELECT e o INPUT de Quantidade
             var select = document.getElementById('produtoSelect');
             var qtdInput = document.getElementById('quantidadeInput');
             var valorInput = document.getElementById('valorInput');
 
-            // 2. Pega o preço que escondemos no atributo "data-preco" da opção selecionada
             var precoUnitario = select.options[select.selectedIndex].getAttribute('data-preco');
             var quantidade = qtdInput.value;
 
-            // 3. Faz a conta (se tiver números válidos)
             if (precoUnitario && quantidade) {
                 var total = parseFloat(precoUnitario) * parseFloat(quantidade);
-                // Arredonda para 2 casas decimais
                 valorInput.value = total.toFixed(2);
             } else {
                 valorInput.value = '';
             }
         }
 
-        // Define a data de hoje automaticamente no campo data
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('data').valueAsDate = new Date();
         });
-    </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>
         function exportarVendasCSV() {
             const tabela = document.querySelector('table');
             let csv = 'Data,Produto,Quantidade,Valor Total\n';
-
+            
             const linhas = tabela.querySelectorAll('tbody tr');
             linhas.forEach(linha => {
                 const colunas = linha.querySelectorAll('td');

@@ -6,31 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-        .estoque-resumo {
-            background: #0f172a;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            margin-top: 1.5rem;
-            text-align: right;
-        }
-
-        .estoque-resumo p {
-            margin: 0.5rem 0;
-            color: #e2e8f0;
-            font-size: 1.1rem;
-        }
-
-        .estoque-resumo .total-geral {
-            font-size: 1.8rem;
-            color: #4ade80;
-            font-weight: bold;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #334155;
-        }
-    </style>
 </head>
 
 <body>
@@ -39,12 +14,21 @@
             <a href="/"><img src="/img/logo.png" alt="Logo IFVERDE"></a>
             <nav>
                 <ul>
-                    <li><a href="/">Início</a></li>
-                    <li><a href="/estoque">Estoque</a></li>
-                    <li><a href="/vendas">Vendas</a></li>
-                    <li><a href="/despesas">Despesas</a></li>
-                    <li><a href="/calendario">Calendário</a></li>
-                    <li><a href="/historico">Relatórios</a></li>
+                    <li><a href="/">🏠 Início</a></li>
+                    <li><a href="/estoque">📦 Estoque</a></li>
+                    <li><a href="/vendas">💰 Vendas</a></li>
+                    <li><a href="/despesas">💸 Despesas</a></li>
+                    <li><a href="/calendario">📅 Calendário</a></li>
+                    <li><a href="/historico">📊 Relatórios</a></li>
+                    <li><a href="/manual">📖 Manual</a></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
+                            <button type="submit"
+                                style="background: none; border: none; padding: 0.7rem 1.2rem; color: #ef4444; cursor: pointer; font-weight: 600; font-size: 0.95rem; border-radius: 8px; transition: all 0.3s ease; border: 1px solid #ef4444;">
+                                🚪 Sair
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -55,13 +39,14 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <h1>Estoque de Produtos</h1>
-                    <div style="margin-bottom: 1.5rem; text-align: right;">
-                        <button class="btn btn-secondary" onclick="exportarEstoqueCSV()">📥 Exportar Estoque</button>
-                        <button class="btn btn-secondary" onclick="gerarEstoquePDF()">📊 Gerar PDF</button>
-                    </div>
                     <p>Veja o que você tem disponível para venda.</p>
                 </div>
                 <a href="/produto/novo" class="btn btn-primary">+ Novo Produto</a>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; text-align: right;">
+                <button class="btn btn-secondary" onclick="exportarEstoqueCSV()">📥 Exportar Estoque</button>
+                <button class="btn btn-secondary" onclick="gerarEstoquePDF()">📊 Gerar PDF</button>
             </div>
 
             <div class="table-responsive">
@@ -79,12 +64,8 @@
                         <tr th:each="produto : ${listaDeProdutos}">
                             <td th:text="${produto.nome}">Alface</td>
                             <td th:text="${produto.quantidade} + ' ' + ${produto.unidade}">10 unid.</td>
-                            <td style="color: #4ade80;"
-                                th:text="'R$ ' + ${#numbers.formatDecimal(produto.precoUnitario != null ? produto.precoUnitario : 0, 1, 2)}">
-                                R$ 0,00</td>
-                            <td style="color: #f1f5f9; font-weight: bold;"
-                                th:text="'R$ ' + ${#numbers.formatDecimal(produto.valorTotalEstoque != null ? produto.valorTotalEstoque : 0, 1, 2)}">
-                                R$ 0,00</td>
+                            <td style="color: #4ade80;" th:text="'R$ ' + ${#numbers.formatDecimal(produto.precoUnitario != null ? produto.precoUnitario : 0, 1, 2)}">R$ 0,00</td>
+                            <td style="color: #f1f5f9; font-weight: bold;" th:text="'R$ ' + ${#numbers.formatDecimal(produto.valorTotalEstoque != null ? produto.valorTotalEstoque : 0, 1, 2)}">R$ 0,00</td>
                             <td class="text-center">
                                 <a th:href="@{/produto/editar/{id}(id=${produto.id})}"
                                     class="btn btn-secondary btn-sm">Editar</a>
@@ -101,9 +82,9 @@
             </div>
 
             <!-- Resumo Total -->
-            <div class="estoque-resumo" th:if="${!#lists.isEmpty(listaDeProdutos)}">
-                <p>📊 <strong>Valor Total em Estoque:</strong></p>
-                <p class="total-geral" th:text="'R$ ' + ${#numbers.formatDecimal(valorTotalEstoque, 1, 2)}">R$ 0,00</p>
+            <div class="estoque-resumo" th:if="${!#lists.isEmpty(listaDeProdutos)}" style="background: #0f172a; padding: 1.5rem; border-radius: 8px; border: 1px solid #334155; margin-top: 1.5rem; text-align: right;">
+                <p style="margin: 0.5rem 0; color: #e2e8f0; font-size: 1.1rem;">📊 <strong>Valor Total em Estoque:</strong></p>
+                <p style="font-size: 1.8rem; color: #4ade80; font-weight: bold; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #334155;" th:text="'R$ ' + ${#numbers.formatDecimal(valorTotalEstoque, 1, 2)}">R$ 0,00</p>
             </div>
         </section>
     </main>
@@ -116,7 +97,7 @@
         function exportarEstoqueCSV() {
             const tabela = document.querySelector('table');
             let csv = 'Produto,Quantidade,Preço Unitário,Valor Total\n';
-
+            
             const linhas = tabela.querySelectorAll('tbody tr');
             linhas.forEach(linha => {
                 const colunas = linha.querySelectorAll('td');
@@ -148,7 +129,6 @@
             html2pdf().set(opt).from(element).save();
         }
     </script>
-
 </body>
 
 </html>
