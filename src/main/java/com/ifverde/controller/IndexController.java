@@ -193,4 +193,9 @@ public class IndexController {
         model.addAttribute("listaDespesas", despesaRepository.findByUsuario(usuario));
         return "historico.html";
     }
+
+    @GetMapping("/manual")
+    public String paginaManual() {
+        return "manual";
+    }
 }

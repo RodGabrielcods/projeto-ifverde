@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
@@ -40,5 +41,27 @@ public class LoginController {
         usuarioRepository.save(usuario);
 
         return "redirect:/login?sucesso";
+    }
+
+     @GetMapping("/esqueci-senha")
+    public String paginaEsqueceuSenha() {
+        return "esqueci-senha";
+    }
+
+    @PostMapping("/redefinir-senha")
+    public String redefinirSenha(@RequestParam String username, @RequestParam String novaSenha, Model model) {
+        var usuario = usuarioRepository.findByUsername(username);
+
+        if (usuario.isEmpty()) {
+            model.addAttribute("erro", "Usuário não encontrado.");
+            return "esqueci-senha";
+        }
+
+        Usuario usuarioEncontrado = usuario.get();
+        usuarioEncontrado.setPassword(passwordEncoder.encode(novaSenha));
+        usuarioRepository.save(usuarioEncontrado);
+
+        model.addAttribute("sucesso", "Senha redefinida com sucesso! Faça login.");
+        return "esqueci-senha";
     }
 }

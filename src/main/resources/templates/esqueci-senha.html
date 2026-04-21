@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - IFVerde</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            background: #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid #334155;
+        }
+
+        .toggle-password {
+            position: relative;
+        }
+
+        .toggle-password input {
+            padding-right: 40px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #4ade80;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+        <h2 style="color: #4ade80; margin-bottom: 1.5rem;">🔐 Recuperar Senha</h2>
+
+        <div th:if="${erro}" style="background: #450a0a; color: #fca5a5; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+            <span th:text="${erro}"></span>
+        </div>
+
+        <div th:if="${sucesso}" style="background: #064e3b; color: #86efac; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+            <span th:text="${sucesso}"></span>
+        </div>
+
+        <form th:action="@{/redefinir-senha}" method="post">
+            <div class="form-group">
+                <label for="username" style="text-align: left;">Nome de Usuário</label>
+                <input type="text" id="username" name="username" required placeholder="Seu nome de usuário">
+            </div>
+
+            <div class="form-group">
+                <label for="novaSenha" style="text-align: left;">Nova Senha</label>
+                <div class="toggle-password">
+                    <input type="password" id="novaSenha" name="novaSenha" required placeholder="Digite sua nova senha">
+                    <button type="button" class="toggle-btn" onclick="togglePasswordVisibility('novaSenha')">👁️</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Redefinir Senha</button>
+        </form>
+
+        <p style="margin-top: 1.5rem;">
+            <a href="/login" class="btn btn-secondary btn-sm">Voltar para Login</a>
+        </p>
+    </div>
+
+    <script>
+        function togglePasswordVisibility(elementId) {
+            const input = document.getElementById(elementId);
+            const button = event.target;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

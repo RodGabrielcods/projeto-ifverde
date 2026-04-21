@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual do Usuário - IFVerde</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .manual-section {
+            margin-bottom: 2rem;
+            border-left: 4px solid #4ade80;
+            padding-left: 1.5rem;
+        }
+
+        .manual-section h3 {
+            color: #4ade80;
+            margin-bottom: 0.8rem;
+        }
+
+        .manual-section p, .manual-section li {
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .manual-section ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            color: #e2e8f0;
+        }
+
+        .manual-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .tip {
+            background: #064e3b;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #86efac;
+        }
+
+        .warning {
+            background: #450a0a;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #fca5a5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .button-group a {
+            flex: 1;
+            min-width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="/"><img src="/img/logo.png" alt="Logo IFVERDE"></a>
+            <nav>
+                <ul>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/estoque">Estoque</a></li>
+                    <li><a href="/vendas">Vendas</a></li>
+                    <li><a href="/despesas">Despesas</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
+                    <li><a href="/historico">Relatórios</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card-section">
+            <h1>📖 Manual do Usuário - IFVerde</h1>
+            <p>Guia completo para usar todas as funcionalidades do sistema.</p>
+
+            <!-- Dashboard -->
+            <div class="manual-section">
+                <h3>🏠 Painel de Controle (Início)</h3>
+                <p>A página inicial mostra um resumo rápido do seu negócio:</p>
+                <ul>
+                    <li><strong>Produtos no Estoque:</strong> Quantidade total de produtos cadastrados</li>
+                    <li><strong>Vendas Realizadas:</strong> Total de transações de venda</li>
+                    <li><strong>Despesas Registradas:</strong> Total de gastos registrados</li>
+                </ul>
+                <p>Clique nos botões rápidos para acessar as funções principais.</p>
+            </div>
+
+            <!-- Estoque -->
+            <div class="manual-section">
+                <h3>📦 Gerenciar Estoque</h3>
+                <p>Adicione, edite ou remova produtos do seu estoque:</p>
+                <ul>
+                    <li><strong>Novo Produto:</strong> Clique em "+ Novo Produto" para adicionar um item</li>
+                    <li><strong>Nome do Produto:</strong> Digite o nome da hortaliça ou produto</li>
+                    <li><strong>Quantidade:</strong> Informe quantas unidades você tem</li>
+                    <li><strong>Unidade:</strong> Escolha a medida (kg, unidade, litro, maço, caixa, etc)</li>
+                    <li><strong>Valor Unitário:</strong> Preço por unidade (ou valor total será dividido)</li>
+                    <li><strong>Editar:</strong> Clique em "Editar" para modificar um produto</li>
+                    <li><strong>Excluir:</strong> Clique em "Excluir" para remover um produto</li>
+                </ul>
+                <div class="tip">
+                    💡 <strong>Dica:</strong> O preço unitário é calculado automaticamente dividindo o valor total pela quantidade.
+                </div>
+            </div>
+
+            <!-- Vendas -->
+            <div class="manual-section">
+                <h3>💰 Registrar Vendas</h3>
+                <p>Controle suas vendas e ganhos:</p>
+                <ul>
+                    <li><strong>Selecione o Produto:</strong> Escolha qual item está vendendo</li>
+                    <li><strong>Quantidade Vendida:</strong> Informe quantas unidades vendeu</li>
+                    <li><strong>Valor Total:</strong> Será calculado automaticamente</li>
+                    <li><strong>Data da Venda:</strong> Data quando ocorreu a transação</li>
+                    <li><strong>Observação:</strong> Adicione notas opcionais (ex: cliente específico)</li>
+                </ul>
+                <div class="warning">
+                    ⚠️ <strong>Atenção:</strong> Ao vender um produto, o estoque é atualizado automaticamente!
+                </div>
+            </div>
+
+            <!-- Despesas -->
+            <div class="manual-section">
+                <h3>💸 Registrar Despesas</h3>
+                <p>Registre todos os seus gastos:</p>
+                <ul>
+                    <li><strong>Descrição:</strong> Qual foi o gasto? (ex: sementes, adubo, ferramentas)</li>
+                    <li><strong>Valor:</strong> Quanto você gastou em reais</li>
+                    <li><strong>Data:</strong> Quando o gasto ocorreu</li>
+                </ul>
+                <div class="tip">
+                    💡 <strong>Dica:</strong> Mantenha todas as despesas atualizadas para um controle financeiro preciso.
+                </div>
+            </div>
+
+            <!-- Calendário -->
+            <div class="manual-section">
+                <h3>📅 Calendário</h3>
+                <p>Visualize um calendário do mês atual. Use para planejar suas atividades e acompanhar datas importantes.</p>
+            </div>
+
+            <!-- Relatórios -->
+            <div class="manual-section">
+                <h3>📊 Relatórios e Histórico</h3>
+                <p>Visualize um extrato financeiro completo:</p>
+                <ul>
+                    <li><strong>Data:</strong> Quando ocorreu a transação</li>
+                    <li><strong>Tipo:</strong> Se foi uma venda (entrada) ou despesa (saída)</li>
+                    <li><strong>Descrição:</strong> Detalhes da transação</li>
+                    <li><strong>Valor:</strong> Quanto entrou (+) ou saiu (-)</li>
+                    <li><strong>Saldo Total:</strong> Seu saldo geral de ganhos e gastos</li>
+                    <li><strong>Maior Venda e Maior Despesa:</strong> As maiores movimentações</li>
+                </ul>
+                <div class="tip">
+                    💡 <strong>Dica:</strong> Use o botão "Gerar Extrato" para exportar relatórios!
+                </div>
+            </div>
+
+            <!-- Segurança -->
+            <div class="manual-section">
+                <h3>🔐 Segurança e Conta</h3>
+                <ul>
+                    <li><strong>Mostrar Senha:</strong> Clique no ícone de olho ao digitar sua senha</li>
+                    <li><strong>Recuperar Senha:</strong> Se esquecer, clique em "Esqueceu a senha?" na tela de login</li>
+                    <li><strong>Sair da Conta:</strong> Clique em "Sair da Conta" no menu superior para fazer logout</li>
+                </ul>
+                <div class="warning">
+                    ⚠️ <strong>Atenção:</strong> Nunca compartilhe sua senha com ninguém. O sistema é seguro e criptografado.
+                </div>
+            </div>
+
+            <!-- Dúvidas Frequentes -->
+            <div class="manual-section">
+                <h3>❓ Dúvidas Frequentes</h3>
+                <ul>
+                    <li><strong>Como calcular o preço unitário?</strong> Divida o valor total do lote pela quantidade</li>
+                    <li><strong>Posso editar uma venda ou despesa?</strong> Atualmente você pode deletar e criar uma nova</li>
+                    <li><strong>Meus dados são seguros?</strong> Sim! Todos os dados são criptografados e privados</li>
+                    <li><strong>Como exportar um relatório?</strong> Use o botão "Gerar Extrato" na página de relatórios</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <a href="/" class="btn btn-primary">Voltar ao Painel</a>
+                <a href="/historico" class="btn btn-secondary">Ver Relatórios</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IFVerde</p>
+    </footer>
+</body>
+
+</html>
