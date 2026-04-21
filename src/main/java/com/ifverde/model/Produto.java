@@ -20,4 +20,11 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    public Double calcularValorTotal() {
+        if (quantidade != null && precoUnitario != null) {
+            return quantidade * precoUnitario;
+        }
+        return 0.0;
+    }
 }

@@ -6,6 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário Produto - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .valor-legenda {
+            color: #94a3b8;
+            display: block;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+
+        .valor-total-preview {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            border: 1px solid #334155;
+        }
+
+        .valor-total-preview p {
+            margin: 0.5rem 0;
+            color: #e2e8f0;
+        }
+
+        .valor-total-preview .total {
+            font-size: 1.5rem;
+            color: #4ade80;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +50,7 @@
     <main class="container">
         <section class="card-section" style="max-width: 600px; margin: 2rem auto;">
             <h1>Dados do Produto</h1>
-            <p>Informe a quantidade e o valor total desse lote. O sistema calculará o preço unitário.</p>
+            <p>Informe a quantidade e o valor unitário. O sistema calculará o valor total automaticamente.</p>
 
             <form th:action="@{/produto/salvar}" th:object="${produto}" method="post">
                 <input type="hidden" th:field="*{id}">
@@ -37,7 +64,8 @@
                     <div class="form-group">
                         <label for="quantidade">Quantidade Total:</label>
                         <input type="number" step="0.1" id="quantidade" th:field="*{quantidade}" placeholder="Ex: 100"
-                            required>
+                            required oninput="atualizarValorTotal()">
+                        <span class="valor-legenda">Quantidade total que você tem em estoque</span>
                     </div>
                     <div class="form-group">
                         <label for="unidade">Unidade:</label>
@@ -53,18 +81,50 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="valorTotal">Valor Total do Lote Inteiro (R$):</label>
-                    <input type="number" step="0.01" id="valorTotal" th:field="*{valorTotalEstoque}"
-                        placeholder="Ex: Se o lote custar R$ 200 no total, digite 200" required>
-                    <small style="color: #94a3b8; display: block; margin-top: 5px;">Isso definirá o preço unitário
-                        automaticamente.</small>
+                    <label for="precoUnitario">Valor Unitário (R$):</label>
+                    <input type="number" step="0.01" id="precoUnitario" th:field="*{precoUnitario}"
+                        placeholder="Ex: 2.50" required oninput="atualizarValorTotal()">
+                    <span class="valor-legenda">Preço por unidade (ex: se vende por R$ 2,50 cada, digite 2.50)</span>
                 </div>
+
+                <!-- Preview do valor total -->
+                <div class="valor-total-preview">
+                    <p><strong>Resumo:</strong></p>
+                    <p id="resumoQtd">Quantidade: 0</p>
+                    <p id="resumoPreco">Preço Unitário: R$ 0,00</p>
+                    <p class="total" id="resumoTotal">Valor Total do Estoque: R$ 0,00</p>
+                </div>
+
+                <input type="hidden" id="valorTotalEstoque" th:field="*{valorTotalEstoque}">
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Salvar
                     Produto</button>
             </form>
         </section>
     </main>
+
+    <script>
+        function atualizarValorTotal() {
+            const quantidade = parseFloat(document.getElementById('quantidade').value) || 0;
+            const precoUnitario = parseFloat(document.getElementById('precoUnitario').value) || 0;
+            const unidade = document.getElementById('unidade').value;
+
+            const valorTotal = quantidade * precoUnitario;
+
+            // Atualizar campo oculto
+            document.getElementById('valorTotalEstoque').value = valorTotal.toFixed(2);
+
+            // Atualizar preview
+            document.getElementById('resumoQtd').textContent = `Quantidade: ${quantidade.toFixed(1)} ${unidade}`;
+            document.getElementById('resumoPreco').textContent = `Preço Unitário: R$ ${precoUnitario.toFixed(2)}`;
+            document.getElementById('resumoTotal').textContent = `Valor Total do Estoque: R$ ${valorTotal.toFixed(2)}`;
+        }
+
+        // Executar ao carregar a página (caso seja edição)
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarValorTotal();
+        });
+    </script>
 </body>
 
 </html>

@@ -75,11 +75,11 @@ public class IndexController {
 
         produto.setUsuario(usuario);
 
-        if (produto.getQuantidade() != null && produto.getQuantidade() > 0 && produto.getValorTotalEstoque() != null) {
-            double unitario = produto.getValorTotalEstoque() / produto.getQuantidade();
-            produto.setPrecoUnitario(unitario);
+        if (produto.getQuantidade() != null && produto.getQuantidade() > 0 && produto.getPrecoUnitario() != null) {
+            double valorTotal = produto.getQuantidade() * produto.getPrecoUnitario();
+            produto.setValorTotalEstoque(valorTotal);
         } else {
-            produto.setPrecoUnitario(0.0);
+            produto.setValorTotalEstoque(0.0);
         }
 
         produtoRepository.save(produto);
