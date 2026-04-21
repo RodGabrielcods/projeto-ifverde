@@ -6,6 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório Financeiro - IFVerde</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .relatorio-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .relatorio-card {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+
+        .relatorio-card.saldo-positivo {
+            border-top: 4px solid #4ade80;
+        }
+
+        .relatorio-card.saldo-negativo {
+            border-top: 4px solid #ef4444;
+        }
+
+        .relatorio-card.saldo-neutro {
+            border-top: 4px solid #94a3b8;
+        }
+
+        .relatorio-card h3 {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .relatorio-card .valor {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .relatorio-card.saldo-positivo .valor {
+            color: #4ade80;
+        }
+
+        .relatorio-card.saldo-negativo .valor {
+            color: #ef4444;
+        }
+
+        .relatorio-card.saldo-neutro .valor {
+            color: #94a3b8;
+        }
+
+        .relatorio-card .subtitulo {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+
+        .maior-transacao {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 0.8rem;
+            border-left: 3px solid #4ade80;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        .maior-transacao strong {
+            color: #4ade80;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +92,6 @@
                     <li><a href="/despesas">Despesas</a></li>
                     <li><a href="/calendario">Calendário</a></li>
                     <li><a href="/historico">Relatórios</a></li>
-                    <li><a href="/manual">Manual do Usuário</a></li>
                 </ul>
             </nav>
         </div>
@@ -28,47 +99,152 @@
 
     <main class="container">
         <section class="card-section">
-            <h1>Extrato Financeiro Completo</h1>
-            <p>Todas as suas movimentações de Vendas e Despesas.</p>
+            <h1>📊 Extrato Financeiro Completo</h1>
+            <p>Todas as suas movimentações de Vendas e Despesas com análise geral.</p>
 
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Tipo</th>
-                            <th>Descrição</th>
-                            <th class="text-right">Valor (R$)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="venda : ${listaVendas}">
-                            <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
-                            <td><span class="badge badge-entrada">VENDA</span></td>
-                            <td th:text="${venda.descricao}"></td>
-                            <td class="text-right" style="color: #27ae60;">+ R$ <span th:text="${venda.valor}"></span>
-                            </td>
-                        </tr>
+            <!-- Cards de Resumo -->
+            <div class="relatorio-cards">
+                <!-- Saldo Total -->
+                <div class="relatorio-card" th:classappend="${saldoTotal >= 0 ? 'saldo-positivo' : 'saldo-negativo'}">
+                    <h3>💰 Saldo Total</h3>
+                    <div class="valor" th:text="'R$ ' + ${#numbers.formatDecimal(saldoTotal, 1, 2)}">R$ 0,00</div>
+                    <div class="subtitulo">Ganhos - Despesas</div>
+                </div>
 
-                        <tr th:each="despesa : ${listaDespesas}">
-                            <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}"></td>
-                            <td><span class="badge badge-saida">DESPESA</span></td>
-                            <td th:text="${despesa.descricao}"></td>
-                            <td class="text-right" style="color: #e74c3c;">- R$ <span th:text="${despesa.valor}"></span>
-                            </td>
-                        </tr>
+                <!-- Total de Vendas -->
+                <div class="relatorio-card" style="border-top: 4px solid #22c55e;">
+                    <h3>📈 Total de Vendas</h3>
+                    <div class="valor" style="color: #22c55e;" th:text="'R$ ' + ${#numbers.formatDecimal(totalVendas, 1, 2)}">R$ 0,00</div>
+                    <div class="subtitulo">Entradas</div>
+                </div>
 
-                        <tr th:if="${#lists.isEmpty(listaVendas) and #lists.isEmpty(listaDespesas)}">
-                            <td colspan="4" class="text-center">Sem movimentações registradas.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- Total de Despesas -->
+                <div class="relatorio-card" style="border-top: 4px solid #ef4444;">
+                    <h3>📉 Total de Despesas</h3>
+                    <div class="valor" style="color: #ef4444;" th:text="'R$ ' + ${#numbers.formatDecimal(totalDespesas, 1, 2)}">R$ 0,00</div>
+                    <div class="subtitulo">Saídas</div>
+                </div>
+            </div>
+
+            <!-- Maiores Transações -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <!-- Maior Venda -->
+                <div class="relatorio-card" style="border-top: 4px solid #4ade80;">
+                    <h3>🏆 Maior Venda</h3>
+                    <div th:if="${maiorVenda}">
+                        <div class="valor" style="color: #4ade80;" th:text="'R$ ' + ${#numbers.formatDecimal(maiorVenda.valor, 1, 2)}">R$ 0,00</div>
+                        <div class="maior-transacao">
+                            <strong>Produto:</strong> <span th:text="${maiorVenda.produto != null ? maiorVenda.produto.nome : 'N/A'}"></span><br>
+                            <strong>Data:</strong> <span th:text="${#temporals.format(maiorVenda.data, 'dd/MM/yyyy')}"></span>
+                        </div>
+                    </div>
+                    <div th:unless="${maiorVenda}" class="subtitulo">
+                        Nenhuma venda registrada
+                    </div>
+                </div>
+
+                <!-- Maior Despesa -->
+                <div class="relatorio-card" style="border-top: 4px solid #ef4444;">
+                    <h3>⚠️ Maior Despesa</h3>
+                    <div th:if="${maiorDespesa}">
+                        <div class="valor" style="color: #ef4444;" th:text="'R$ ' + ${#numbers.formatDecimal(maiorDespesa.valor, 1, 2)}">R$ 0,00</div>
+                        <div class="maior-transacao">
+                            <strong>Descrição:</strong> <span th:text="${maiorDespesa.descricao}"></span><br>
+                            <strong>Data:</strong> <span th:text="${#temporals.format(maiorDespesa.data, 'dd/MM/yyyy')}"></span>
+                        </div>
+                    </div>
+                    <div th:unless="${maiorDespesa}" class="subtitulo">
+                        Nenhuma despesa registrada
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Histórico -->
+            <div style="margin-top: 2rem;">
+                <h2 style="margin-bottom: 1rem;">📋 Histórico de Movimentações</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th class="text-right">Valor (R$)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="venda : ${listaVendas}">
+                                <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
+                                <td><span class="badge badge-entrada">VENDA</span></td>
+                                <td th:text="${venda.descricao}"></td>
+                                <td class="text-right" style="color: #27ae60;">+ R$ <span th:text="${#numbers.formatDecimal(venda.valor, 1, 2)}"></span></td>
+                            </tr>
+
+                            <tr th:each="despesa : ${listaDespesas}">
+                                <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}"></td>
+                                <td><span class="badge badge-saida">DESPESA</span></td>
+                                <td th:text="${despesa.descricao}"></td>
+                                <td class="text-right" style="color: #e74c3c;">- R$ <span th:text="${#numbers.formatDecimal(despesa.valor, 1, 2)}"></span></td>
+                            </tr>
+
+                            <tr th:if="${#lists.isEmpty(listaVendas) and #lists.isEmpty(listaDespesas)}">
+                                <td colspan="4" class="text-center">Sem movimentações registradas.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Botão de Exportar -->
+            <div style="text-align: right; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="gerarExtrato()">📥 Gerar Extrato em PDF</button>
+                <button class="btn btn-secondary" onclick="exportarCSV()">📊 Exportar para CSV</button>
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 IFVerde</p>
     </footer>
+
+    <script>
+        function gerarExtrato() {
+            // Usar a biblioteca HTML2PDF para gerar PDF
+            const element = document.querySelector('.card-section');
+            const opt = {
+                margin: 10,
+                filename: 'extrato-ifverde.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function exportarCSV() {
+            const tabela = document.querySelector('table');
+            let csv = 'Data,Tipo,Descrição,Valor\n';
+            
+            const linhas = tabela.querySelectorAll('tbody tr');
+            linhas.forEach(linha => {
+                const colunas = linha.querySelectorAll('td');
+                if (colunas.length > 0) {
+                    const data = colunas[0].textContent;
+                    const tipo = colunas[1].textContent.trim();
+                    const desc = colunas[2].textContent;
+                    const valor = colunas[3].textContent;
+                    csv += `"${data}","${tipo}","${desc}","${valor}"\n`;
+                }
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'extrato-ifverde.csv';
+            a.click();
+        }
+    </script>
 </body>
 
 </html>

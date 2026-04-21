@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -48,7 +49,14 @@ public class IndexController {
     @GetMapping("/estoque")
     public String paginaEstoque(Model model, Principal principal) {
         Usuario usuario = getUsuarioLogado(principal);
-        model.addAttribute("listaDeProdutos", produtoRepository.findByUsuario(usuario));
+        List<Produto> produtos = produtoRepository.findByUsuario(usuario);
+
+        Double valorTotalEstoque = produtos.stream()
+                .map(p -> p.getValorTotalEstoque() != null ? p.getValorTotalEstoque() : 0.0)
+                .reduce(0.0, Double::sum);
+
+        model.addAttribute("listaDeProdutos", produtos);
+        model.addAttribute("valorTotalEstoque", valorTotalEstoque);
         return "estoque.html";
     }
 
@@ -189,8 +197,38 @@ public class IndexController {
     @GetMapping("/historico")
     public String paginaHistorico(Model model, Principal principal) {
         Usuario usuario = getUsuarioLogado(principal);
-        model.addAttribute("listaVendas", vendaRepository.findByUsuario(usuario));
-        model.addAttribute("listaDespesas", despesaRepository.findByUsuario(usuario));
+
+        List<Venda> vendas = vendaRepository.findByUsuario(usuario);
+        List<Despesa> despesas = despesaRepository.findByUsuario(usuario);
+
+        Double totalVendas = vendas.stream()
+                .map(v -> v.getValor() != null ? v.getValor() : 0.0)
+                .reduce(0.0, Double::sum);
+
+        Double totalDespesas = despesas.stream()
+                .map(d -> d.getValor() != null ? d.getValor() : 0.0)
+                .reduce(0.0, Double::sum);
+
+        Double saldoTotal = totalVendas - totalDespesas;
+
+        Venda maiorVenda = vendas.stream()
+                .max((v1, v2) -> Double.compare(v1.getValor() != null ? v1.getValor() : 0,
+                        v2.getValor() != null ? v2.getValor() : 0))
+                .orElse(null);
+
+        Despesa maiorDespesa = despesas.stream()
+                .max((d1, d2) -> Double.compare(d1.getValor() != null ? d1.getValor() : 0,
+                        d2.getValor() != null ? d2.getValor() : 0))
+                .orElse(null);
+
+        model.addAttribute("listaVendas", vendas);
+        model.addAttribute("listaDespesas", despesas);
+        model.addAttribute("totalVendas", totalVendas);
+        model.addAttribute("totalDespesas", totalDespesas);
+        model.addAttribute("saldoTotal", saldoTotal);
+        model.addAttribute("maiorVenda", maiorVenda);
+        model.addAttribute("maiorDespesa", maiorDespesa);
+
         return "historico.html";
     }
 

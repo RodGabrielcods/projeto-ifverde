@@ -46,6 +46,10 @@
 
         <section class="card-section">
             <h1>Registrar Nova Venda</h1>
+            <div style="margin-bottom: 1.5rem; text-align: right;">
+                <button class="btn btn-secondary" onclick="exportarVendasCSV()">📥 Exportar Vendas</button>
+                <button class="btn btn-secondary" onclick="gerarVendasPDF()">📊 Gerar PDF</button>
+            </div>
             <p>Selecione o produto e a quantidade. O valor será calculado automaticamente.</p>
 
             <form th:action="@{/venda/salvar}" th:object="${novaVenda}" method="post">
@@ -161,6 +165,44 @@
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('data').valueAsDate = new Date();
         });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function exportarVendasCSV() {
+            const tabela = document.querySelector('table');
+            let csv = 'Data,Produto,Quantidade,Valor Total\n';
+
+            const linhas = tabela.querySelectorAll('tbody tr');
+            linhas.forEach(linha => {
+                const colunas = linha.querySelectorAll('td');
+                if (colunas.length > 0 && colunas[0].textContent.includes('/')) {
+                    const data = colunas[0].textContent;
+                    const produto = colunas[1].textContent;
+                    const qtd = colunas[2].textContent;
+                    const valor = colunas[3].textContent;
+                    csv += `"${data}","${produto}","${qtd}","${valor}"\n`;
+                }
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'vendas-ifverde.csv';
+            link.click();
+        }
+
+        function gerarVendasPDF() {
+            const element = document.querySelector('.card-section');
+            const opt = {
+                margin: 10,
+                filename: 'vendas-ifverde.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
     </script>
 </body>
 

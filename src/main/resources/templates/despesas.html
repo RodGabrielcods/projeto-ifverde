@@ -29,6 +29,10 @@
     <main class="container">
         <section class="card-section" style="border-top: 4px solid #e74c3c;">
             <h1 style="color: #c0392b;">Registrar Despesa</h1>
+            <div style="margin-bottom: 1.5rem; text-align: right;">
+                <button class="btn btn-secondary" onclick="exportarDespesasCSV()">📥 Exportar Despesas</button>
+                <button class="btn btn-secondary" onclick="gerarDespesasPDF()">📊 Gerar PDF</button>
+            </div>
             <p>Gastos com adubo, sementes, ferramentas, etc.</p>
 
             <form th:action="@{/despesa/salvar}" th:object="${novaDespesa}" method="post">
@@ -83,6 +87,44 @@
     <footer>
         <p>&copy; 2025 IFVerde</p>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function exportarDespesasCSV() {
+            const tabela = document.querySelector('table');
+            let csv = 'Data,Descrição,Valor\n';
+
+            const linhas = tabela.querySelectorAll('tbody tr');
+            linhas.forEach(linha => {
+                const colunas = linha.querySelectorAll('td');
+                if (colunas.length > 0 && colunas[0].textContent.includes('/')) {
+                    const data = colunas[0].textContent;
+                    const desc = colunas[1].textContent;
+                    const valor = colunas[2].textContent;
+                    csv += `"${data}","${desc}","${valor}"\n`;
+                }
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'despesas-ifverde.csv';
+            link.click();
+        }
+
+        function gerarDespesasPDF() {
+            const element = document.querySelector('.card-section');
+            const opt = {
+                margin: 10,
+                filename: 'despesas-ifverde.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+
 </body>
 
 </html>
