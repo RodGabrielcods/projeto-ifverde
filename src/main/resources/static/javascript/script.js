@@ -28,38 +28,37 @@ document.addEventListener('DOMContentLoaded', function () {
     const eventModal = document.getElementById('event-modal');
     const closeModal = document.querySelector('.modal-close');
     const saveEventBtn = document.getElementById('save-event');
-    
     let selectedDate = null;
     let eventos = JSON.parse(localStorage.getItem('ifverde-eventos')) || {};
-    
-    let dataAtualCalendario = new Date();
 
     if (calendarioGrid) {
+        const agora = new Date();
+        const ano = agora.getFullYear();
+        const mes = agora.getMonth();
+
+        renderizarCalendario(ano, mes);
+        mesAnoTitulo.textContent = new Date(ano, mes, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+
         const prevBtn = document.getElementById('prev-month');
         const nextBtn = document.getElementById('next-month');
 
-        function atualizarExibicaoCalendario() {
-            const ano = dataAtualCalendario.getFullYear();
-            const mes = dataAtualCalendario.getMonth();
-            renderizarCalendario(ano, mes);
-            mesAnoTitulo.textContent = new Date(ano, mes, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
-        }
-
         if (prevBtn) {
             prevBtn.addEventListener('click', function () {
-                dataAtualCalendario.setMonth(dataAtualCalendario.getMonth() - 1);
-                atualizarExibicaoCalendario();
+                const mesAnterior = mes - 1 < 0 ? 11 : mes - 1;
+                const anoAnterior = mes - 1 < 0 ? ano - 1 : ano;
+                renderizarCalendario(anoAnterior, mesAnterior);
+                mesAnoTitulo.textContent = new Date(anoAnterior, mesAnterior, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', function () {
-                dataAtualCalendario.setMonth(dataAtualCalendario.getMonth() + 1);
-                atualizarExibicaoCalendario();
+                const mesPosterior = mes + 1 > 11 ? 0 : mes + 1;
+                const anoPosterior = mes + 1 > 11 ? ano + 1 : ano;
+                renderizarCalendario(anoPosterior, mesPosterior);
+                mesAnoTitulo.textContent = new Date(anoPosterior, mesPosterior, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
             });
         }
-
-        atualizarExibicaoCalendario();
     }
 
     function renderizarCalendario(ano, mes) {
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let dia = 1; dia <= totalDiasMes; dia++) {
             const diaElemento = document.createElement('div');
             diaElemento.classList.add('day');
-            diaElemento.style.cursor = 'pointer';
 
             const dataFormatada = `${dia.toString().padStart(2, '0')}/${(mes + 1).toString().padStart(2, '0')}/${ano}`;
             const eventosDia = eventos[dataFormatada] || [];
@@ -100,9 +98,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (evento.tipo === 'colheita') classe = 'event-colheita';
                     else if (evento.tipo === 'plantacao') classe = 'event-plantacao';
                     else if (evento.tipo === 'pagamento') classe = 'event-pagamento';
-                    return `<span class="event-marker ${classe}" title="${evento.tipo}" style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:#4ade80; margin: 2px;"></span>`;
+                    return `<span class="event-marker ${classe}" title="${evento.tipo}"></span>`;
                 }).join('');
-                diaElemento.innerHTML += `<div class="day-events" style="margin-top: 5px;">${eventosHtml}</div>`;
+                diaElemento.innerHTML += `<div class="day-events">${eventosHtml}</div>`;
+            }
+
+            if (eventosDia.length > 0) {
+                const primeiroEvento = eventosDia[0];
+                if (primeiroEvento.tipo === 'colheita') {
+                    diaElemento.classList.add('day-marked-colheita');
+                } else if (primeiroEvento.tipo === 'plantacao') {
+                    diaElemento.classList.add('day-marked-plantacao');
+                } else if (primeiroEvento.tipo === 'pagamento') {
+                    diaElemento.classList.add('day-marked-pagamento');
+                }
             }
 
             if (dia === diaHoje && mes === mesHoje && ano === anoHoje) {
@@ -128,21 +137,18 @@ document.addEventListener('DOMContentLoaded', function () {
             listaEventos.innerHTML = '';
             eventosExistentes.forEach((evento, index) => {
                 const eventoItem = document.createElement('div');
-                eventoItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; background: #0f172a; border-radius: 6px; margin-bottom: 0.5rem; border-left: 4px solid #4ade80;';
+                eventoItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: #0f172a; border-radius: 6px; margin-bottom: 0.5rem;';
                 eventoItem.innerHTML = `
-                    <span style="font-size: 0.9rem;"><strong>${evento.tipo.toUpperCase()}</strong> - ${evento.descricao}</span>
-                    <button onclick="removerEvento('${data}', ${index})" class="btn btn-danger btn-sm" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Excluir</button>
+                    <span>${evento.tipo} - ${evento.descricao}</span>
+                    <button onclick="removerEvento('${data}', ${index})" class="btn btn-danger btn-sm">Remover</button>
                 `;
                 listaEventos.appendChild(eventoItem);
             });
-            if(eventosExistentes.length === 0){
-                listaEventos.innerHTML = '<p style="color: #94a3b8; font-size: 0.9rem; text-align: center;">Nenhum evento registrado para este dia.</p>';
-            }
         }
 
         const titleModal = document.getElementById('modal-date-title');
         if (titleModal) {
-            titleModal.textContent = `Eventos: ${data}`;
+            titleModal.textContent = `Eventos do dia ${data}`;
         }
 
         eventModal.style.display = 'block';
@@ -166,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const descricaoEvento = document.getElementById('event-description').value;
 
             if (!tipoEvento || !descricaoEvento) {
-                alert('Preencha o tipo e a descrição do evento.');
+                alert('Preencha o tipo e a descrição do evento');
                 return;
             }
 
@@ -185,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('event-description').value = '';
 
             abrirModalEvento(selectedDate);
-            renderizarCalendario(dataAtualCalendario.getFullYear(), dataAtualCalendario.getMonth());
+            renderizarCalendario(new Date().getFullYear(), new Date().getMonth());
         });
     }
 
@@ -197,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             localStorage.setItem('ifverde-eventos', JSON.stringify(eventos));
             abrirModalEvento(data);
-            renderizarCalendario(dataAtualCalendario.getFullYear(), dataAtualCalendario.getMonth());
+            renderizarCalendario(new Date().getFullYear(), new Date().getMonth());
         }
     };
 
