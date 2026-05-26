@@ -78,9 +78,9 @@
                     </thead>
                     <tbody>
                         <tr th:each="despesa : ${listaDespesas}">
-                            <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}">Data</td>
-                            <td th:text="${despesa.descricao}">Desc</td>
-                            <td style="color: #c0392b; font-weight: bold;" th:text="'R$ ' + ${despesa.valor}">Val</td>
+                            <td th:text="${#temporals.format(despesa.data, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${despesa.descricao}"></td>
+                            <td style="color: #c0392b; font-weight: bold;" th:text="'R$ ' + ${despesa.valor}"></td>
                             <td class="text-right">
                                 <a th:href="@{/despesa/excluir/{id}(id=${despesa.id})}" style="color: #999;"
                                     onclick="return confirm('Excluir despesa?')">✕</a>
@@ -94,6 +94,7 @@
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 IFVerde</p>
     </footer>
@@ -103,7 +104,6 @@
         function exportarDespesasCSV() {
             const tabela = document.querySelector('table');
             let csv = 'Data,Descrição,Valor\n';
-            
             const linhas = tabela.querySelectorAll('tbody tr');
             linhas.forEach(linha => {
                 const colunas = linha.querySelectorAll('td');
@@ -114,7 +114,6 @@
                     csv += `"${data}","${desc}","${valor}"\n`;
                 }
             });
-
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -123,9 +122,57 @@
         }
 
         function gerarDespesasPDF() {
-            const element = document.querySelector('.card-section');
+            const element = document.createElement('div');
+            element.style.padding = '20px';
+            element.style.backgroundColor = '#ffffff';
+            element.style.color = '#000000';
+            element.style.fontFamily = 'Arial, sans-serif';
+            element.innerHTML = `
+                <div style="text-align: center; margin-bottom: 25px; border-bottom: 2px solid #ef4444; padding-bottom: 10px;">
+                    <h1 style="margin: 0; color: #1e293b; font-size: 22px;">IFVerde - Relatório de Despesas</h1>
+                    <p style="margin: 5px 0 0 0; color: #64748b; font-size: 13px;">Histórico de Gastos e Despesas</p>
+                </div>
+            `;
+            const originalTable = document.querySelector('table').cloneNode(true);
+            originalTable.style.width = '100%';
+            originalTable.style.borderCollapse = 'collapse';
+            originalTable.style.color = '#000000';
+            originalTable.style.marginTop = '10px';
+            const headers = originalTable.querySelectorAll('th');
+            headers.forEach(th => {
+                th.style.backgroundColor = '#f1f5f9';
+                th.style.color = '#1e293b';
+                th.style.padding = '10px';
+                th.style.border = '1px solid #cbd5e1';
+                th.style.fontSize = '12px';
+                th.style.textTransform = 'uppercase';
+                th.style.textAlign = 'left';
+            });
+            const cells = originalTable.querySelectorAll('td');
+            cells.forEach(td => {
+                td.style.padding = '10px';
+                td.style.border = '1px solid #cbd5e1';
+                td.style.color = '#334155';
+                td.style.backgroundColor = '#ffffff';
+                td.style.fontSize = '12px';
+            });
+            const rows = originalTable.querySelectorAll('tr');
+            rows.forEach(row => {
+                if (row.cells.length > 0) {
+                    row.cells[row.cells.length - 1].remove();
+                }
+            });
+            const bodyRows = originalTable.querySelectorAll('tbody tr');
+            bodyRows.forEach(row => {
+                const valorCell = row.cells[2];
+                if (valorCell && !row.querySelector('.text-center')) {
+                    valorCell.style.color = '#dc2626';
+                    valorCell.style.fontWeight = 'bold';
+                }
+            });
+            element.appendChild(originalTable);
             const opt = {
-                margin: 10,
+                margin: 15,
                 filename: 'despesas-ifverde.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },

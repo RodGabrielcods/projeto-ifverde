@@ -37,10 +37,13 @@
 
     <main class="container">
         <section class="card-section" id="calendario-visual" style="text-align: center;">
-            <div class="calendar-header">
-                <h2 id="month-year">Mês/Ano</h2>
-                <p>Acompanhe os dias do mês.</p>
+            <div class="calendar-header" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <button id="prev-month" class="btn btn-secondary btn-sm">&lt; Anterior</button>
+                <h2 id="month-year" style="margin: 0; min-width: 250px; text-transform: capitalize;">Mês/Ano</h2>
+                <button id="next-month" class="btn btn-secondary btn-sm">Próximo &gt;</button>
             </div>
+            
+            <p style="margin-bottom: 1.5rem;">Acompanhe os dias do mês e registre seus eventos.</p>
 
             <div class="calendar-grid">
                 <div class="weekday">Dom</div>
@@ -52,6 +55,28 @@
                 <div class="weekday">Sáb</div>
             </div>
         </section>
+
+        <div id="event-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);">
+            <div style="background-color: #1e293b; margin: 10% auto; padding: 25px; border: 1px solid #334155; border-radius: 12px; width: 90%; max-width: 450px; color: #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                <span class="modal-close" style="color: #cbd5e1; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                <h3 id="modal-date-title" style="margin-bottom: 20px; color: #4ade80; border-bottom: 1px solid #334155; padding-bottom: 10px;">Eventos do dia</h3>
+                
+                <div id="events-list" style="margin-bottom: 20px; max-height: 200px; overflow-y: auto;"></div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; border-top: 1px solid #334155; padding-top: 15px;">
+                    <label for="event-type" style="font-weight: bold; font-size: 0.9rem;">Adicionar Novo Evento:</label>
+                    <select id="event-type" style="padding: 10px; border-radius: 6px; background: #0f172a; color: white; border: 1px solid #475569;">
+                        <option value="">Selecione o tipo...</option>
+                        <option value="plantacao">🌱 Plantação</option>
+                        <option value="colheita">🌾 Colheita</option>
+                        <option value="pagamento">💰 Pagamento</option>
+                        <option value="outro">📝 Outro</option>
+                    </select>
+                    <input type="text" id="event-description" placeholder="Descrição do evento..." style="padding: 10px; border-radius: 6px; background: #0f172a; color: white; border: 1px solid #475569;">
+                    <button id="save-event" class="btn btn-primary" style="margin-top: 10px; padding: 10px;">Salvar Evento</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>

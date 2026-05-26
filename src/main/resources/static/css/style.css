@@ -29,7 +29,6 @@ ul {
     list-style: none;
 }
 
-/* ===== HEADER E NAV APRIMORADOS ===== */
 header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     box-shadow: 0 8px 16px -2px rgba(74, 222, 128, 0.1);
@@ -65,7 +64,7 @@ nav ul {
     display: flex;
     gap: 0.5rem;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-end;
 }
 
@@ -103,7 +102,6 @@ nav a.active {
     box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
 }
 
-/* Botão de logout especial */
 nav form button {
     padding: 0.7rem 1.2rem;
     background-color: rgba(239, 68, 68, 0.1);
@@ -123,7 +121,33 @@ nav form button:hover {
     transform: translateY(-2px);
 }
 
-/* Separador visual */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 28px;
+    height: 3px;
+    background-color: #4ade80;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
 nav li:nth-last-child(2)::after {
     content: '';
     display: inline-block;
@@ -132,8 +156,6 @@ nav li:nth-last-child(2)::after {
     background-color: #334155;
     margin-left: 0.5rem;
 }
-
-/* ===== FIM HEADER E NAV ===== */
 
 .card-section {
     background: #1e293b;
@@ -390,6 +412,13 @@ td {
     min-height: 80px;
     font-weight: 600;
     color: #cbd5e1;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.calendar-grid div:hover {
+    background-color: #293548;
 }
 
 .calendar-grid .weekday {
@@ -400,6 +429,11 @@ td {
     padding: 0.5rem;
     font-size: 0.8rem;
     text-transform: uppercase;
+    cursor: default;
+}
+
+.calendar-grid .weekday:hover {
+    background-color: #0f172a;
 }
 
 .calendar-grid .today {
@@ -410,6 +444,97 @@ td {
 
 .calendar-grid .empty-day {
     background-color: #182333;
+    cursor: default;
+}
+
+.calendar-grid .empty-day:hover {
+    background-color: #182333;
+}
+
+.day-number {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.day-events {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 0.3rem;
+}
+
+.event-marker {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 2px;
+}
+
+.event-colheita {
+    background-color: #4ade80;
+}
+
+.event-plantacao {
+    background-color: #60a5fa;
+}
+
+.event-pagamento {
+    background-color: #fbbf24;
+}
+
+.event-outro {
+    background-color: #a78bfa;
+}
+
+.day-marked-colheita {
+    background-color: rgba(74, 222, 128, 0.2);
+    border-left: 3px solid #4ade80;
+}
+
+.day-marked-plantacao {
+    background-color: rgba(96, 165, 250, 0.2);
+    border-left: 3px solid #60a5fa;
+}
+
+.day-marked-pagamento {
+    background-color: rgba(251, 191, 36, 0.2);
+    border-left: 3px solid #fbbf24;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #1e293b;
+    margin: 5% auto;
+    padding: 2rem;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+    color: #cbd5e1;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #4ade80;
 }
 
 footer {
@@ -421,17 +546,33 @@ footer {
     border-top: 1px solid #1e293b;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    nav li:nth-last-child(2)::after {
+        display: none;
+    }
 
+    nav li {
+        display: none;
+    }
+
+    nav li.nav-item-visible {
+        display: block;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (max-width: 768px) {
     .container {
         width: 95%;
         padding-bottom: 5rem;
     }
 
     header .container {
-        flex-direction: column;
-        text-align: center;
         gap: 1rem;
+        padding: 0.5rem 0;
     }
 
     img {
@@ -443,38 +584,53 @@ footer {
     }
 
     nav ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
         flex-direction: column;
-        justify-content: center;
-        gap: 0.4rem;
-        padding: 0;
-        width: 100%;
+        background-color: #1e293b;
+        border-bottom: 2px solid #4ade80;
+        gap: 0;
+        padding: 1rem 0;
+        justify-content: flex-start;
+        border-radius: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    nav ul.active {
+        max-height: 500px;
     }
 
     nav li {
+        display: block;
         width: 100%;
     }
 
     nav a {
         display: block;
-        padding: 0.6rem 0.8rem;
-        background-color: #334155;
-        border-radius: 6px;
+        padding: 0.8rem 1rem;
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
         font-size: 0.9rem;
-        width: 100%;
+        margin: 0.2rem 0;
+        text-align: left;
     }
 
     nav a:hover {
-        background-color: #4ade80;
-        color: #022c22;
+        background-color: rgba(74, 222, 128, 0.1);
+        color: #4ade80;
+        transform: none;
+        box-shadow: none;
     }
 
     nav form button {
-        width: 100%;
+        width: calc(100% - 2rem);
         display: block;
-    }
-
-    nav li:nth-last-child(2)::after {
-        display: none;
+        margin: 1rem 1rem 0 1rem;
     }
 
     .form-row {
@@ -508,8 +664,18 @@ footer {
         min-width: 600px;
     }
 
+    th,
+    td {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+    }
+
     .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    .card-section {
+        padding: 1.5rem;
     }
 
     .login-card {
@@ -518,13 +684,68 @@ footer {
     }
 
     .calendar-grid div {
-        padding: 0.2rem;
-        min-height: 50px;
-        font-size: 0.8rem;
+        padding: 0.4rem;
+        min-height: 60px;
+        font-size: 0.75rem;
     }
 
     .calendar-grid .weekday {
-        font-size: 0.7rem;
-        padding: 0.2rem;
+        font-size: 0.65rem;
+        padding: 0.3rem;
+    }
+
+    .day-number {
+        font-size: 0.8rem;
+    }
+
+    .day-events {
+        font-size: 0.6rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 98%;
+    }
+
+    img {
+        width: 5rem;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .calendar-grid div {
+        padding: 0.3rem;
+        min-height: 50px;
+        font-size: 0.65rem;
+    }
+
+    table {
+        min-width: 100%;
+    }
+
+    .form-row {
+        gap: 0.5rem;
     }
 }

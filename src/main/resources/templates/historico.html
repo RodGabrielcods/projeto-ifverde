@@ -9,13 +9,15 @@
     <link rel="icon" type="image/png" th:href="@{/img/logosite.ico}">
     <style>
         .relatorio-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .relatorio-card {
+            flex: 1;
+            min-width: 250px;
             background: #1e293b;
             padding: 1.5rem;
             border-radius: 10px;
@@ -117,23 +119,19 @@
                 <button class="btn btn-secondary" onclick="exportarCSV()">📊 Exportar para CSV</button>
             </div>
 
-            <!-- Cards de Resumo -->
             <div class="relatorio-cards">
-                <!-- Saldo Total -->
                 <div class="relatorio-card" th:classappend="${saldoTotal >= 0 ? 'saldo-positivo' : 'saldo-negativo'}">
                     <h3>💰 Saldo Total</h3>
                     <div class="valor" th:text="'R$ ' + ${#numbers.formatDecimal(saldoTotal, 1, 2)}">R$ 0,00</div>
                     <div class="subtitulo">Ganhos - Despesas</div>
                 </div>
 
-                <!-- Total de Vendas -->
                 <div class="relatorio-card" style="border-top: 4px solid #22c55e;">
                     <h3>📈 Total de Vendas</h3>
                     <div class="valor" style="color: #22c55e;" th:text="'R$ ' + ${#numbers.formatDecimal(totalVendas, 1, 2)}">R$ 0,00</div>
                     <div class="subtitulo">Entradas</div>
                 </div>
 
-                <!-- Total de Despesas -->
                 <div class="relatorio-card" style="border-top: 4px solid #ef4444;">
                     <h3>📉 Total de Despesas</h3>
                     <div class="valor" style="color: #ef4444;" th:text="'R$ ' + ${#numbers.formatDecimal(totalDespesas, 1, 2)}">R$ 0,00</div>
@@ -141,9 +139,7 @@
                 </div>
             </div>
 
-            <!-- Maiores Transações -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                <!-- Maior Venda -->
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
                 <div class="relatorio-card" style="border-top: 4px solid #4ade80;">
                     <h3>🏆 Maior Venda</h3>
                     <div th:if="${maiorVenda}">
@@ -158,7 +154,6 @@
                     </div>
                 </div>
 
-                <!-- Maior Despesa -->
                 <div class="relatorio-card" style="border-top: 4px solid #ef4444;">
                     <h3>⚠️ Maior Despesa</h3>
                     <div th:if="${maiorDespesa}">
@@ -174,7 +169,6 @@
                 </div>
             </div>
 
-            <!-- Tabela de Histórico -->
             <div style="margin-top: 2rem;">
                 <h2 style="margin-bottom: 1rem;">📋 Histórico de Movimentações</h2>
                 <div class="table-responsive">
@@ -219,14 +213,87 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         function gerarExtrato() {
-            const element = document.querySelector('.card-section');
+            const element = document.createElement('div');
+            element.style.padding = '20px';
+            element.style.backgroundColor = '#ffffff';
+            element.style.color = '#000000';
+            element.style.fontFamily = 'Arial, sans-serif';
+
+            element.innerHTML = `
+                <div style="text-align: center; margin-bottom: 25px; border-bottom: 2px solid #22c55e; padding-bottom: 10px;">
+                    <h1 style="margin: 0; color: #1e293b; font-size: 22px;">IFVerde - Extrato Financeiro</h1>
+                    <p style="margin: 5px 0 0 0; color: #64748b; font-size: 13px;">Relatório de Movimentações Tabular</p>
+                </div>
+            `;
+
+            const originalTable = document.querySelector('table').cloneNode(true);
+            originalTable.style.width = '100%';
+            originalTable.style.borderCollapse = 'collapse';
+            originalTable.style.color = '#000000';
+            originalTable.style.marginTop = '10px';
+
+            const headers = originalTable.querySelectorAll('th');
+            headers.forEach(th => {
+                th.style.backgroundColor = '#f1f5f9';
+                th.style.color = '#1e293b';
+                th.style.padding = '10px';
+                th.style.border = '1px solid #cbd5e1';
+                th.style.fontSize = '12px';
+                th.style.textTransform = 'uppercase';
+                th.style.textAlign = 'left';
+            });
+
+            const cells = originalTable.querySelectorAll('td');
+            cells.forEach(td => {
+                td.style.padding = '10px';
+                td.style.border = '1px solid #cbd5e1';
+                td.style.color = '#334155';
+                td.style.backgroundColor = '#ffffff';
+                td.style.fontSize = '12px';
+            });
+
+            const badges = originalTable.querySelectorAll('.badge');
+            badges.forEach(badge => {
+                badge.style.padding = '3px 6px';
+                badge.style.borderRadius = '4px';
+                badge.style.fontSize = '11px';
+                badge.style.fontWeight = 'bold';
+                badge.style.display = 'inline-block';
+                if (badge.classList.contains('badge-entrada')) {
+                    badge.style.backgroundColor = '#dcfce7';
+                    badge.style.color = '#15803d';
+                    badge.style.border = '1px solid #bbf7d0';
+                } else {
+                    badge.style.backgroundColor = '#fee2e2';
+                    badge.style.color = '#b91c1c';
+                    badge.style.border = '1px solid #fca5a5';
+                }
+            });
+
+            const rows = originalTable.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const entrada = row.querySelector('.badge-entrada');
+                const saida = row.querySelector('.badge-saida');
+                const ultimaCelula = row.cells[row.cells.length - 1];
+                if (entrada && ultimaCelula) {
+                    ultimaCelula.style.color = '#16a34a';
+                    ultimaCelula.style.fontWeight = 'bold';
+                } else if (saida && ultimaCelula) {
+                    ultimaCelula.style.color = '#dc2626';
+                    ultimaCelula.style.fontWeight = 'bold';
+                }
+            });
+
+            element.appendChild(originalTable);
+
             const opt = {
-                margin: 10,
+                margin: 15,
                 filename: 'extrato-ifverde.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
             };
+
             html2pdf().set(opt).from(element).save();
         }
 
@@ -236,7 +303,7 @@
             
             const linhas = tabela.querySelectorAll('tbody tr');
             linhas.forEach(linha => {
-                const colunas = linha.querySelectorAll('td');
+                const colunas = inline = linha.querySelectorAll('td');
                 if (colunas.length > 0) {
                     const data = colunas[0].textContent;
                     const tipo = colunas[1].textContent.trim();
