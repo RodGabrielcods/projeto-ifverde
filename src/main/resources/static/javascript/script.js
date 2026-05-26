@@ -31,38 +31,43 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedDate = null;
     let eventos = JSON.parse(localStorage.getItem('ifverde-eventos')) || {};
 
+    let anoAtual = new Date().getFullYear();
+    let mesAtual = new Date().getMonth();
+
     if (calendarioGrid) {
-        const agora = new Date();
-        const ano = agora.getFullYear();
-        const mes = agora.getMonth();
-
-        renderizarCalendario(ano, mes);
-        mesAnoTitulo.textContent = new Date(ano, mes, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
-
         const prevBtn = document.getElementById('prev-month');
         const nextBtn = document.getElementById('next-month');
 
         if (prevBtn) {
             prevBtn.addEventListener('click', function () {
-                const mesAnterior = mes - 1 < 0 ? 11 : mes - 1;
-                const anoAnterior = mes - 1 < 0 ? ano - 1 : ano;
-                renderizarCalendario(anoAnterior, mesAnterior);
-                mesAnoTitulo.textContent = new Date(anoAnterior, mesAnterior, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+                mesAtual--;
+                if (mesAtual < 0) {
+                    mesAtual = 11;
+                    anoAtual--;
+                }
+                renderizarCalendario(anoAtual, mesAtual);
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', function () {
-                const mesPosterior = mes + 1 > 11 ? 0 : mes + 1;
-                const anoPosterior = mes + 1 > 11 ? ano + 1 : ano;
-                renderizarCalendario(anoPosterior, mesPosterior);
-                mesAnoTitulo.textContent = new Date(anoPosterior, mesPosterior, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+                mesAtual++;
+                if (mesAtual > 11) {
+                    mesAtual = 0;
+                    anoAtual++;
+                }
+                renderizarCalendario(anoAtual, mesAtual);
             });
         }
+
+        renderizarCalendario(anoAtual, mesAtual);
     }
 
     function renderizarCalendario(ano, mes) {
-        const calendarioGrid = document.querySelector('.calendar-grid');
+        if (mesAnoTitulo) {
+            mesAnoTitulo.textContent = new Date(ano, mes, 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+        }
+
         const diasExistentes = calendarioGrid.querySelectorAll('.day, .empty-day, .today');
         diasExistentes.forEach(dia => dia.remove());
 
@@ -86,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let dia = 1; dia <= totalDiasMes; dia++) {
             const diaElemento = document.createElement('div');
             diaElemento.classList.add('day');
+            diaElemento.style.cursor = 'pointer';
 
             const dataFormatada = `${dia.toString().padStart(2, '0')}/${(mes + 1).toString().padStart(2, '0')}/${ano}`;
             const eventosDia = eventos[dataFormatada] || [];
@@ -98,9 +104,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (evento.tipo === 'colheita') classe = 'event-colheita';
                     else if (evento.tipo === 'plantacao') classe = 'event-plantacao';
                     else if (evento.tipo === 'pagamento') classe = 'event-pagamento';
-                    return `<span class="event-marker ${classe}" title="${evento.tipo}"></span>`;
+                    return `<span class="event-marker ${classe}" title="${evento.tipo}" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 2px;"></span>`;
                 }).join('');
-                diaElemento.innerHTML += `<div class="day-events">${eventosHtml}</div>`;
+                diaElemento.innerHTML += `<div class="day-events" style="margin-top: 5px; display: flex; justify-content: center; gap: 2px; flex-wrap: wrap;">${eventosHtml}</div>`;
             }
 
             if (eventosDia.length > 0) {
@@ -137,18 +143,22 @@ document.addEventListener('DOMContentLoaded', function () {
             listaEventos.innerHTML = '';
             eventosExistentes.forEach((evento, index) => {
                 const eventoItem = document.createElement('div');
-                eventoItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: #0f172a; border-radius: 6px; margin-bottom: 0.5rem;';
+                eventoItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.6rem; background: #0f172a; border-radius: 6px; border-left: 4px solid #4ade80;';
                 eventoItem.innerHTML = `
-                    <span>${evento.tipo} - ${evento.descricao}</span>
-                    <button onclick="removerEvento('${data}', ${index})" class="btn btn-danger btn-sm">Remover</button>
+                    <span style="font-size: 0.85rem;"><strong>${evento.tipo.toUpperCase()}</strong>: ${evento.descricao}</span>
+                    <button onclick="removerEvento('${data}', ${index})" class="btn btn-danger btn-sm" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;">Remover</button>
                 `;
                 listaEventos.appendChild(eventoItem);
             });
+
+            if (eventosExistentes.length === 0) {
+                listaEventos.innerHTML = '<p style="color: #94a3b8; font-size: 0.85rem; margin: 10px 0;">Nenhum evento registrado para este dia.</p>';
+            }
         }
 
         const titleModal = document.getElementById('modal-date-title');
         if (titleModal) {
-            titleModal.textContent = `Eventos do dia ${data}`;
+            titleModal.textContent = `Eventos de ${data}`;
         }
 
         eventModal.style.display = 'block';
@@ -191,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('event-description').value = '';
 
             abrirModalEvento(selectedDate);
-            renderizarCalendario(new Date().getFullYear(), new Date().getMonth());
+            renderizarCalendario(anoAtual, mesAtual);
         });
     }
 
@@ -203,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             localStorage.setItem('ifverde-eventos', JSON.stringify(eventos));
             abrirModalEvento(data);
-            renderizarCalendario(new Date().getFullYear(), new Date().getMonth());
+            renderizarCalendario(anoAtual, mesAtual);
         }
     };
 
