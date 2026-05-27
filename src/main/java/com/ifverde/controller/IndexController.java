@@ -100,6 +100,15 @@ public class IndexController {
         Produto produto = produtoRepository.findByIdAndUsuario(id, usuario).orElse(null);
 
         if (produto != null) {
+            // DESVINCULA O PRODUTO DAS VENDAS ANTIGAS PARA EVITAR O ERRO DE CHAVE ESTRANGEIRA
+            List<Venda> vendasDoUsuario = vendaRepository.findByUsuario(usuario);
+            for (Venda venda : vendasDoUsuario) {
+                if (venda.getProduto() != null && venda.getProduto().getId().equals(id)) {
+                    venda.setProduto(null); // Remove a referência para não perder o histórico financeiro
+                    vendaRepository.save(venda);
+                }
+            }
+            
             produtoRepository.delete(produto);
         }
         return "redirect:/estoque";
@@ -130,9 +139,14 @@ public class IndexController {
         if (produtoNoBanco != null) {
             if (produtoNoBanco.getQuantidade() >= venda.getQuantidadeVendida()) {
 
+                // Atualiza o estoque do produto
                 produtoNoBanco.setQuantidade(produtoNoBanco.getQuantidade() - venda.getQuantidadeVendida());
                 produtoNoBanco.setValorTotalEstoque(produtoNoBanco.getQuantidade() * produtoNoBanco.getPrecoUnitario());
                 produtoRepository.save(produtoNoBanco);
+
+                // CÁLCULO SEGURO DO VALOR NO BACK-END (RESOLVE O PROBLEMA DO NULL)
+                double valorCalculado = venda.getQuantidadeVendida() * produtoNoBanco.getPrecoUnitario();
+                venda.setValor(valorCalculado);
 
                 if (venda.getDescricao() == null || venda.getDescricao().isEmpty()) {
                     venda.setDescricao("Venda de " + venda.getQuantidadeVendida() + " " + produtoNoBanco.getUnidade()
