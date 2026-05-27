@@ -149,16 +149,26 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>
+    <script th:inline="javascript">
+        const dEv = [[${novoEventoData}]];
+        const tEv = [[${novoEventoTipo}]];
+        const cEv = [[${novoEventoDesc}]];
+        if (dEv && tEv && cEv) {
+            let evs = JSON.parse(localStorage.getItem('ifverde-eventos')) || {};
+            if (!evs[dEv]) evs[dEv] = [];
+            if (!evs[dEv].some(e => e.descricao === cEv)) {
+                evs[dEv].push({ tipo: tEv, descricao: cEv });
+                localStorage.setItem('ifverde-eventos', JSON.stringify(evs));
+            }
+        }
+
         function calcularTotal() {
             var select = document.getElementById('produtoSelect');
             var qtdInput = document.getElementById('quantidadeInput');
             var valorInput = document.getElementById('valorInput');
             var precoUnitario = select.options[select.selectedIndex].getAttribute('data-preco');
             var quantidade = qtdInput.value;
-            if (precoUnitario && Skinner && quantidade)skinner
             if (precoUnitario && quantidade) {
-                var total = parseFloat(precoUnitario) * parseFloat(Skinner);
                 var total = parseFloat(precoUnitario) * parseFloat(quantidade);
                 valorInput.value = total.toFixed(2);
             } else {
@@ -167,7 +177,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('data').valueAsDate = new Date();
+            if (!document.getElementById('data').value) {
+                document.getElementById('data').valueAsDate = new Date();
+            }
         });
 
         function exportarVendasCSV() {

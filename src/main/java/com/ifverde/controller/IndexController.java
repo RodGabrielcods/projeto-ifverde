@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -78,7 +81,7 @@ public class IndexController {
     }
 
     @PostMapping("/produto/salvar")
-    public String salvarProduto(@ModelAttribute Produto produto, Principal principal) {
+    public String salvarProduto(@ModelAttribute Produto produto, Principal principal, RedirectAttributes redirectAttributes) {
         Usuario usuario = getUsuarioLogado(principal);
 
         produto.setUsuario(usuario);
@@ -91,6 +94,12 @@ public class IndexController {
         }
 
         produtoRepository.save(produto);
+
+        String dataStr = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        redirectAttributes.addFlashAttribute("novoEventoData", dataStr);
+        redirectAttributes.addFlashAttribute("novoEventoTipo", "plantacao");
+        redirectAttributes.addFlashAttribute("novoEventoDesc", "Entrada Estoque: " + produto.getNome());
+
         return "redirect:/estoque";
     }
 
@@ -100,15 +109,13 @@ public class IndexController {
         Produto produto = produtoRepository.findByIdAndUsuario(id, usuario).orElse(null);
 
         if (produto != null) {
-            // DESVINCULA O PRODUTO DAS VENDAS ANTIGAS PARA EVITAR O ERRO DE CHAVE ESTRANGEIRA
             List<Venda> vendasDoUsuario = vendaRepository.findByUsuario(usuario);
             for (Venda venda : vendasDoUsuario) {
                 if (venda.getProduto() != null && venda.getProduto().getId().equals(id)) {
-                    venda.setProduto(null); // Remove a referência para não perder o histórico financeiro
+                    venda.setProduto(null);
                     vendaRepository.save(venda);
                 }
             }
-            
             produtoRepository.delete(produto);
         }
         return "redirect:/estoque";
@@ -130,7 +137,7 @@ public class IndexController {
     }
 
     @PostMapping("/venda/salvar")
-    public String salvarVenda(@ModelAttribute Venda venda, Principal principal) {
+    public String salvarVenda(@ModelAttribute Venda venda, Principal principal, RedirectAttributes redirectAttributes) {
         Usuario usuario = getUsuarioLogado(principal);
 
         Produto produtoNoBanco = produtoRepository.findByIdAndUsuario(venda.getProduto().getId(), usuario)
@@ -139,12 +146,10 @@ public class IndexController {
         if (produtoNoBanco != null) {
             if (produtoNoBanco.getQuantidade() >= venda.getQuantidadeVendida()) {
 
-                // Atualiza o estoque do produto
                 produtoNoBanco.setQuantidade(produtoNoBanco.getQuantidade() - venda.getQuantidadeVendida());
                 produtoNoBanco.setValorTotalEstoque(produtoNoBanco.getQuantidade() * produtoNoBanco.getPrecoUnitario());
                 produtoRepository.save(produtoNoBanco);
 
-                // CÁLCULO SEGURO DO VALOR NO BACK-END (RESOLVE O PROBLEMA DO NULL)
                 double valorCalculado = venda.getQuantidadeVendida() * produtoNoBanco.getPrecoUnitario();
                 venda.setValor(valorCalculado);
 
@@ -156,6 +161,12 @@ public class IndexController {
                 venda.setProduto(produtoNoBanco);
                 venda.setUsuario(usuario);
                 vendaRepository.save(venda);
+
+                LocalDate dataVenda = venda.getData() != null ? venda.getData() : LocalDate.now();
+                String dataStr = dataVenda.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                redirectAttributes.addFlashAttribute("novoEventoData", dataStr);
+                redirectAttributes.addFlashAttribute("novoEventoTipo", "colheita");
+                redirectAttributes.addFlashAttribute("novoEventoDesc", venda.getDescricao());
 
                 return "redirect:/vendas";
             } else {
@@ -185,10 +196,17 @@ public class IndexController {
     }
 
     @PostMapping("/despesa/salvar")
-    public String salvarDespesa(@ModelAttribute Despesa despesa, Principal principal) {
+    public String salvarDespesa(@ModelAttribute Despesa despesa, Principal principal, RedirectAttributes redirectAttributes) {
         Usuario usuario = getUsuarioLogado(principal);
         despesa.setUsuario(usuario);
         despesaRepository.save(despesa);
+
+        LocalDate dataDespesa = despesa.getData() != null ? despesa.getData() : LocalDate.now();
+        String dataStr = dataDespesa.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        redirectAttributes.addFlashAttribute("novoEventoData", dataStr);
+        redirectAttributes.addFlashAttribute("novoEventoTipo", "pagamento");
+        redirectAttributes.addFlashAttribute("novoEventoDesc", "Despesa: " + despesa.getDescricao());
+
         return "redirect:/despesas";
     }
 

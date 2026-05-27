@@ -93,7 +93,19 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>
+    <script th:inline="javascript">
+        const dEv = [[${novoEventoData}]];
+        const tEv = [[${novoEventoTipo}]];
+        const cEv = [[${novoEventoDesc}]];
+        if (dEv && tEv && cEv) {
+            let evs = JSON.parse(localStorage.getItem('ifverde-eventos')) || {};
+            if (!evs[dEv]) evs[dEv] = [];
+            if (!evs[dEv].some(e => e.descricao === cEv)) {
+                evs[dEv].push({ tipo: tEv, descricao: cEv });
+                localStorage.setItem('ifverde-eventos', JSON.stringify(evs));
+            }
+        }
+
         function exportarEstoqueCSV() {
             const tabela = document.querySelector('table');
             let csv = 'Produto,Quantidade,Preço Unitário,Valor Total\n';
