@@ -17,11 +17,13 @@
         .manual-section h3 {
             color: #4ade80;
             margin-bottom: 0.8rem;
+            font-size: 1.3rem;
         }
 
         .manual-section p, .manual-section li {
             color: #e2e8f0;
             line-height: 1.8;
+            font-size: 0.95rem;
         }
 
         .manual-section ul {
@@ -31,7 +33,7 @@
         }
 
         .manual-section li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.7rem;
         }
 
         .tip {
@@ -41,6 +43,7 @@
             border-radius: 6px;
             margin: 1rem 0;
             color: #86efac;
+            font-size: 0.95rem;
         }
 
         .warning {
@@ -50,6 +53,7 @@
             border-radius: 6px;
             margin: 1rem 0;
             color: #fca5a5;
+            font-size: 0.95rem;
         }
 
         .button-group {
@@ -62,6 +66,27 @@
         .button-group a {
             flex: 1;
             min-width: 200px;
+        }
+
+        .highlight-box {
+            background: #1e293b;
+            border: 1px solid #4ade80;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #e2e8f0;
+        }
+
+        .step {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            border-left: 3px solid #4ade80;
+        }
+
+        .step strong {
+            color: #4ade80;
         }
     </style>
 </head>
@@ -94,116 +119,222 @@
 
     <main class="container">
         <section class="card-section">
-            <h1>📖 Manual do Usuário - IFVerde</h1>
-            <p>Guia completo para usar todas as funcionalidades do sistema.</p>
+            <h1>📖 Guia do IFVerde</h1>
+            <p>Tudo o que você precisa saber para gerenciar sua horta e acompanhar suas vendas e gastos.</p>
 
             <div class="manual-section">
-                <h3>🏠 Painel de Controle (Início)</h3>
-                <p>A página inicial mostra um resumo rápido do seu negócio:</p>
+                <h3>🏠 Começando no Painel Principal</h3>
+                <p>Quando você acessa o IFVerde, a primeira tela mostra um resumo rápido do que está acontecendo na sua horta. São três números que importam:</p>
                 <ul>
-                    <li><strong>Produtos no Estoque:</strong> Quantidade total de produtos cadastrados</li>
-                    <li><strong>Vendas Realizadas:</strong> Total de transações de venda</li>
-                    <li><strong>Despesas Registradas:</strong> Total de gastos registrados</li>
+                    <li><strong>Produtos no Estoque:</strong> Quantos itens diferentes você tem cadastrados</li>
+                    <li><strong>Vendas Realizadas:</strong> Quantas vezes você vendeu algo</li>
+                    <li><strong>Despesas Registradas:</strong> Quantas vezes você gastou com a horta</li>
                 </ul>
-                <p>Clique nos botões rápidos para acessar as funções principais.</p>
+                <p>De lá, você consegue acessar os principais menus com os botões rápidos. Simples assim.</p>
             </div>
 
             <div class="manual-section">
-                <h3>📦 Gerenciar Estoque</h3>
-                <p>Adicione, edite ou remova produtos do seu estoque:</p>
-                <ul>
-                    <li><strong>Novo Produto:</strong> Clique em "+ Novo Produto" para adicionar um item</li>
-                    <li><strong>Nome do Produto:</strong> Digite o nome da hortaliça ou produto</li>
-                    <li><strong>Quantidade:</strong> Informe quantas unidades você tem</li>
-                    <li><strong>Unidade:</strong> Escolha a medida (kg, unidade, litro, maço, caixa, etc)</li>
-                    <li><strong>Valor Unitário:</strong> Preço por unidade (ou valor total será dividido)</li>
-                    <li><strong>Editar:</strong> Clique em "Editar" para modificar um produto</li>
-                    <li><strong>Excluir:</strong> Clique em "Excluir" para remover um produto</li>
-                </ul>
-                <div class="tip">
-                    💡 <strong>Dica:</strong> O preço unitário é calculado automaticamente dividindo o valor total pela quantidade.
+                <h3>📦 Gerenciando o Estoque</h3>
+                <p>Aqui é onde você controla o que tem plantado ou colhido. Você adiciona novos produtos, edita os que já existem e remove os que não quer mais rastrear.</p>
+                
+                <div class="step">
+                    <strong>Para adicionar um produto:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Clique em "+ Novo Produto" no topo da página. Aí você preenche:</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Nome:</strong> A sua alface, tomate, abóbora, etc</li>
+                        <li><strong>Quantidade:</strong> Quanto você tem agora (100 kg, 50 unidades, o que fizer sentido)</li>
+                        <li><strong>Unidade:</strong> A forma de medir - pode ser kg, unidade, litro, maço, caixa. Escolha o que você costuma usar</li>
+                        <li><strong>Valor Unitário:</strong> O preço de uma unidade. Se você vende 1 kg por R$ 5, coloca 5. Se vende cada tomate por R$ 2, coloca 2</li>
+                    </ul>
+                </div>
+
+                <p>O sistema calcula automaticamente quanto você tem de valor total em estoque. Se você tem 100 kg de alface a R$ 5 o kg, fica R$ 500 no total.</p>
+
+                <div class="step">
+                    <strong>Para editar ou remover:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Clique em "Editar" se precisa mudar quantidade ou preço. "Excluir" se não quer mais rastrear aquele produto.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <p style="margin: 0;"><strong>Vale saber:</strong> Quando você vende um produto, o estoque diminui automaticamente. Se tinha 100 kg de alface e vendeu 20, fica 80.</p>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <strong style="color: #cbd5e1;">Exportar dados:</strong>
+                    <p style="color: #cbd5e1; margin-top: 0.5rem;">Tem dois botões práticos no topo da página: "Exportar Estoque" gera um arquivo CSV (funciona em Excel) e "Gerar PDF" faz um relatório bonitão da sua lista de produtos.</p>
                 </div>
             </div>
 
             <div class="manual-section">
-                <h3>💰 Registrar Vendas</h3>
-                <p>Controle suas vendas e ganhos:</p>
-                <ul>
-                    <li><strong>Selecione o Produto:</strong> Escolha qual item está vendendo</li>
-                    <li><strong>Quantidade Vendida:</strong> Informe quantas unidades vendeu</li>
-                    <li><strong>Valor Total:</strong> Será calculado automaticamente</li>
-                    <li><strong>Data da Venda:</strong> Data quando ocorreu a transação</li>
-                    <li><strong>Observação:</strong> Adicione notas opcionais (ex: cliente específico)</li>
-                </ul>
+                <h3>💰 Registrando Vendas</h3>
+                <p>Aqui você marca tudo o que vende. O sistema rastreia quanto você vendeu, de qual produto, em que data e por quanto.</p>
+
+                <div class="step">
+                    <strong>Passo 1:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Escolha qual produto você está vendendo na lista. Ela mostra o preço de cada um e quanto sobrou em estoque.</p>
+                </div>
+
+                <div class="step">
+                    <strong>Passo 2:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Informe quantas unidades você vendeu. O valor total é calculado na hora (quantidade × preço unitário).</p>
+                </div>
+
+                <div class="step">
+                    <strong>Passo 3:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Adicione a data (por padrão é hoje, mas você muda se precisar) e opcionalmente uma observação (tipo o nome do cliente ou "vendido na feira").</p>
+                </div>
+
                 <div class="warning">
-                    ⚠️ <strong>Atenção:</strong> Ao vender um produto, o estoque é atualizado automaticamente!
+                    ⚠️ Aviso importante: O estoque é atualizado automaticamente quando você registra uma venda. Vendeu 20 kg? O estoque cai 20 kg na hora. Não tira essa venda duas vezes.
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <strong style="color: #cbd5e1;">Relatórios:</strong>
+                    <p style="color: #cbd5e1; margin-top: 0.5rem;">Assim como o estoque, você consegue exportar suas vendas em CSV ou gerar um PDF bonito pra imprimir ou guardar.</p>
                 </div>
             </div>
 
             <div class="manual-section">
-                <h3>💸 Registrar Despesas</h3>
-                <p>Registre todos os seus gastos:</p>
-                <ul>
-                    <li><strong>Descrição:</strong> Qual foi o gasto? (ex: sementes, adubo, ferramentas)</li>
-                    <li><strong>Valor:</strong> Quanto você gastou em reais</li>
-                    <li><strong>Data:</strong> Quando o gasto ocorreu</li>
-                </ul>
+                <h3>💸 Registrando Despesas</h3>
+                <p>Coloque aqui tudo o que você gasta. Sementes, adubo, ferramentas, combustível, aluguel da terra - tudo entra na conta para você saber quanto está investindo.</p>
+
+                <div class="step">
+                    <strong>O que você precisa preencher:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Descrição:</strong> O que você comprou? "Sementes de tomate", "Adubo NPK", "Mangueira nova"</li>
+                        <li><strong>Valor:</strong> Quanto custou em reais</li>
+                        <li><strong>Data:</strong> Quando você gastou o dinheiro</li>
+                    </ul>
+                </div>
+
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Mantenha todas as despesas atualizadas para um controle financeiro preciso.
+                    💡 Dica: Quanto mais despesas você registra, mais precisa seus números ficam. Se você não lança aquele adubo de R$ 50, o lucro fica inflado.
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <strong style="color: #cbd5e1;">Exportando:</strong>
+                    <p style="color: #cbd5e1; margin-top: 0.5rem;">Igual ao resto, dá pra exportar tudo em CSV ou gerar um PDF das suas despesas.</p>
                 </div>
             </div>
 
             <div class="manual-section">
-                <h3>📅 Calendário</h3>
-                <p>Visualize um calendário do mês atual. Use para planejar suas atividades e acompanhar datas importantes.</p>
+                <h3>📅 Acompanhando com o Calendário</h3>
+                <p>Você pode usar o calendário pra planejar suas atividades e acompanhar o que você fez quando. Marca plantações, colheitas, pagamentos - o que fizer sentido pra sua rotina.</p>
+
+                <div class="step">
+                    <strong>Como funciona:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Clique em um dia do calendário e adicione um evento. Você escolhe o tipo (plantação, colheita, pagamento ou outro) e escreve uma descrição rápida.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <p style="margin: 0;"><strong>Importante:</strong> Os eventos do calendário são salvos no seu navegador (localStorage). Não desaparecem se você deslogar, mas desaparecem se você limpar o histórico/cache do navegador.</p>
+                </div>
+
+                <ul style="margin-top: 1rem;">
+                    <li><strong>Verde:</strong> Colheita</li>
+                    <li><strong>Azul:</strong> Plantação</li>
+                    <li><strong>Amarelo:</strong> Pagamento</li>
+                    <li><strong>Roxo:</strong> Outro</li>
+                </ul>
+
+                <p style="margin-top: 1rem;">A navegação é fácil - seta pra trás e pra frente pra mudar de mês, e você consegue remover eventos se errou.</p>
             </div>
 
             <div class="manual-section">
-                <h3>📊 Relatórios e Histórico</h3>
-                <p>Visualize um extrato financeiro completo:</p>
-                <ul>
-                    <li><strong>Data:</strong> Quando ocorreu a transação</li>
-                    <li><strong>Tipo:</strong> Se foi uma venda (entrada) ou despesa (saída)</li>
-                    <li><strong>Descrição:</strong> Detalhes da transação</li>
-                    <li><strong>Valor:</strong> Quanto entrou (+) ou saiu (-)</li>
-                    <li><strong>Saldo Total:</strong> Seu saldo geral de ganhos e gastos</li>
-                    <li><strong>Maior Venda e Maior Despesa:</strong> As maiores movimentações</li>
-                </ul>
+                <h3>📊 Vendo o Panorama Financeiro Completo</h3>
+                <p>Esta é a página mais importante se você quer saber se está ganhando dinheiro. Ela junta tudo: todas as vendas, todas as despesas, o saldo no final das contas.</p>
+
+                <div class="step">
+                    <strong>Os números que aparecem:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Saldo Total:</strong> Quanto você ganhou com vendas menos o que você gastou. Positivo é bom, negativo significa que gastou mais do que vendeu</li>
+                        <li><strong>Total de Vendas:</strong> Dinheiro que entrou</li>
+                        <li><strong>Total de Despesas:</strong> Dinheiro que saiu</li>
+                        <li><strong>Maior Venda:</strong> Qual foi o seu melhor negócio</li>
+                        <li><strong>Maior Despesa:</strong> Qual foi o seu gasto mais pesado</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 1rem;">Abaixo desses números, tem a lista completa de todas as movimentações. Cada linha mostra a data, se foi venda (entrada) ou despesa (saída), uma descrição e o valor.</p>
+
+                <div style="margin-top: 1rem;">
+                    <strong style="color: #cbd5e1;">Gerando relatórios:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>"Gerar Extrato em PDF" faz um documento bonito pra você imprimir, enviar por email ou guardar no computador</li>
+                        <li>"Exportar para CSV" salva tudo em um formato que abre no Excel se você quer analisar mais fundo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="manual-section">
+                <h3>🔐 Conta e Segurança</h3>
+                <p>Você controla seu acesso com um nome de usuário e uma senha. Simples e seguro.</p>
+
+                <div class="step">
+                    <strong>Criando sua conta:</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Na tela de login, clique em "Crie uma agora". Escolha um nome de usuário e uma senha. Pronto, você já consegue acessar.</p>
+                </div>
+
+                <div class="step">
+                    <strong>Esqueceu a senha?</strong>
+                    <p style="margin-top: 0.5rem; color: #cbd5e1;">Clique em "Esqueceu a senha?" na tela de login, coloca seu nome de usuário, e cria uma nova senha.</p>
+                </div>
+
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Use o botão "Gerar Extrato" para exportar relatórios!
+                    💡 Na tela de login ou recuperação de senha, tem um ícone de olho. Clica nele pra ver o que você está digitando na senha.
                 </div>
-            </div>
 
-            <div class="manual-section">
-                <h3>🔐 Segurança e Conta</h3>
-                <ul>
-                    <li><strong>Mostrar Senha:</strong> Clique no ícone de olho ao digitar sua senha</li>
-                    <li><strong>Recuperar Senha:</strong> Se esquecer, clique em "Esqueceu a senha?" na tela de login</li>
-                    <li><strong>Sair da Conta:</strong> Clique em "Sair da Conta" no menu superior para fazer logout</li>
-                </ul>
                 <div class="warning">
-                    ⚠️ <strong>Atenção:</strong> Nunca compartilhe sua senha com ninguém. O sistema é seguro!.
+                    ⚠️ Segurança: Não compartilhe sua senha com ninguém. E se você usa o computador compartilhado com mais gente, clique em "Sair" quando terminar (botão vermelho no canto superior).
                 </div>
             </div>
 
             <div class="manual-section">
-                <h3>❓ Dúvidas Frequentes</h3>
+                <h3>❓ Dúvidas que a Galera Costuma Ter</h3>
+
+                <div class="highlight-box" style="margin-bottom: 1rem;">
+                    <strong style="color: #4ade80;">Como calculo o valor unitário mesmo?</strong>
+                    <p style="margin-top: 0.5rem; color: #e2e8f0;">Se você tem 50 kg de alface e gastou R$ 250 pra conseguir eles, o preço unitário é 250 dividido por 50 = R$ 5 por kg. Se você compra por R$ 5 por kg, é esse o valor que coloca.</p>
+                </div>
+
+                <div class="highlight-box" style="margin-bottom: 1rem;">
+                    <strong style="color: #4ade80;">Posso editar uma venda ou despesa depois que registrei?</strong>
+                    <p style="margin-top: 0.5rem; color: #e2e8f0;">Por enquanto não dá editar direto. Se errou, deleta e cria de novo. A gente quer adicionar isso em breve.</p>
+                </div>
+
+                <div class="highlight-box" style="margin-bottom: 1rem;">
+                    <strong style="color: #4ade80;">Os eventos do calendário desaparecem?</strong>
+                    <p style="margin-top: 0.5rem; color: #e2e8f0;">Eles ficam no seu navegador. Se você limpador o cache ou histórico (tipo, "limpar dados de navegação"), os eventos somem. Mas se você só fecha a aba e abre de novo, fica tudo lá.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <strong style="color: #4ade80;">O sistema tira as vendas automaticamente do estoque, certo?</strong>
+                    <p style="margin-top: 0.5rem; color: #e2e8f0;">Sim. Quando você registra uma venda, o estoque cai na hora. Isso evita que você venda mais do que tem. Se você tenta vender 100 kg mas tem só 50, o sistema avisa.</p>
+                </div>
+            </div>
+
+            <div class="manual-section">
+                <h3>🎯 Dicas pra Aproveitar Melhor</h3>
+
                 <ul>
-                    <li><strong>Como calcular o preço unitário?</strong> Divida o valor total do lote pela quantidade</li>
-                    <li><strong>Posso editar uma venda ou despesa?</strong> Atualmente você pode deletar e criar uma nova</li>
-                    <li><strong>Como exportar um relatório?</strong> Use o botão "Gerar Extrato" na página de relatórios</li>
+                    <li><strong>Atualizar tudo regularmente:</strong> Quanto mais recentes os dados, melhor você controla o negócio. Reserve 5 minutos por dia pra lançar as coisas.</li>
+                    <li><strong>Exportar relatórios periodicamente:</strong> No final do mês, gere um PDF do estoque e do extrato. Você consegue ver trends e planeja melhor.</li>
+                    <li><strong>Usar a descrição das vendas:</strong> Se escrever "vendido na feira" ou "cliente João", dá pra entender depois pra quem você vende mais.</li>
+                    <li><strong>Registrar tudo que gasta:</strong> Até aquele adubo de R$ 15. Despesa pequena somada vira número grande, e o lucro real é só vendas menos tudo isso.</li>
+                    <li><strong>Checar o estoque regularmente:</strong> Se o sistema fala que tem 50 kg mas só tem 30 na sua casa, alguém comeu ou esqueceu de lançar uma venda. Melhor ajustar.</li>
                 </ul>
             </div>
 
-            <div class="button-group">
+            <div class="button-group" style="margin-top: 3rem;">
                 <a href="/" class="btn btn-primary">Voltar ao Painel</a>
+                <a href="/estoque" class="btn btn-secondary">Ver Estoque</a>
                 <a href="/historico" class="btn btn-secondary">Ver Relatórios</a>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 IFVerde</p>
+        <p>&copy; 2025 IFVerde. Feito pra ajudar quem planta.</p>
     </footer>
 </body>
 
