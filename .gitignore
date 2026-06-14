@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+# Variáveis de ambiente locais
+.env
+.env.*
+
+# Ocultar arquivos de banco de dados locais caso use H2 ou similares
+*.db
+*.sqlite
