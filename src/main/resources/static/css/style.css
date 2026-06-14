@@ -747,7 +747,9 @@ footer {
     }
 
     .btn {
+        width: 98%;
         padding: 0.6rem 1rem;
+        margin-top: 0.5rem;
         font-size: 0.9rem;
     }
 
