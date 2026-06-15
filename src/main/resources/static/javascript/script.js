@@ -1,4 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('ifverde-theme') || 'dark';
+
+    if (currentTheme === 'light') {
+        document.body.classList.add('light-theme');
+        if (themeToggleBtn) themeToggleBtn.innerHTML = '🌙 Tema Escuro';
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.classList.toggle('light-theme');
+            let theme = 'dark';
+            if (document.body.classList.contains('light-theme')) {
+                theme = 'light';
+                themeToggleBtn.innerHTML = '🌙 Tema Escuro';
+            } else {
+                themeToggleBtn.innerHTML = '☀️ Tema Claro';
+            }
+            localStorage.setItem('ifverde-theme', theme);
+        });
+    }
+
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('nav ul');
 
@@ -143,7 +166,13 @@ document.addEventListener('DOMContentLoaded', function () {
             listaEventos.innerHTML = '';
             eventosExistentes.forEach((evento, index) => {
                 const eventoItem = document.createElement('div');
-                eventoItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.6rem; background: #0f172a; border-radius: 6px; border-left: 4px solid #4ade80;';
+                eventoItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.6rem; background: #0f172a; border-radius: 6px; border-left: 4px solid #4ade80; margin-bottom: 0.5rem;';
+                
+                if(document.body.classList.contains('light-theme')){
+                    eventoItem.style.background = '#f1f5f9';
+                    eventoItem.style.color = '#0f172a';
+                }
+
                 eventoItem.innerHTML = `
                     <span style="font-size: 0.85rem;"><strong>${evento.tipo.toUpperCase()}</strong>: ${evento.descricao}</span>
                     <button onclick="removerEvento('${data}', ${index})" class="btn btn-danger btn-sm" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;">Remover</button>
