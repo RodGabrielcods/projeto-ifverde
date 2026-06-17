@@ -102,7 +102,7 @@
                     <li><a href="/historico">📊 Relatórios</a></li>
                     <li><a href="/manual">📖 Manual</a></li>
                     <li>
-                        <button type="button" id="theme-toggle" class="btn btn-secondary btn-sm" style="padding: 0.5rem 0.8rem; margin-right: 10px; font-size: 0.85rem;">☀️ Tema Claro</button>
+                        <button type="button" id="theme-toggle" class="btn btn-secondary btn-sm" style="padding: 0.5rem 0.8rem; margin-right: 10px; font-size: 0.85rem;">Tema ☀️</button>
                     </li>
                     <li>
                         <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
@@ -113,6 +113,11 @@
                         </form>
                     </li>
                 </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </nav>
         </div>
     </header>
@@ -220,7 +225,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-        fnction gerarExtrato() {
+        function gerarExtrato() {
             const element = document.createElement('div');
             element.style.padding = '20px';
             element.style.backgroundColor = '#ffffff';
@@ -311,7 +316,7 @@
             
             const linhas = tabela.querySelectorAll('tbody tr');
             linhas.forEach(linha => {
-                const colunas = inline = linha.querySelectorAll('td');
+                const colunas = linha.querySelectorAll('td');
                 if (colunas.length > 0) {
                     const data = colunas[0].textContent;
                     const tipo = colunas[1].textContent.trim();

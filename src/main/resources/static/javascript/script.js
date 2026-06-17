@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (currentTheme === 'light') {
         document.body.classList.add('light-theme');
-        if (themeToggleBtn) themeToggleBtn.innerHTML = '🌙 Tema Escuro';
+        if (themeToggleBtn) themeToggleBtn.innerHTML = 'Tema 🌙';
     }
 
     if (themeToggleBtn) {
@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
             let theme = 'dark';
             if (document.body.classList.contains('light-theme')) {
                 theme = 'light';
-                themeToggleBtn.innerHTML = '🌙 Tema Escuro';
+                themeToggleBtn.innerHTML = 'Tema 🌙';
             } else {
-                themeToggleBtn.innerHTML = '☀️ Tema Claro';
+                themeToggleBtn.innerHTML = 'Tema ☀️';
             }
             localStorage.setItem('ifverde-theme', theme);
         });
