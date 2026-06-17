@@ -10,6 +10,11 @@
 </head>
 
 <body>
+    <script>
+        if (localStorage.getItem('ifverde-theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+    </script>
     <header>
         <div class="container">
             <a href="/"><img src="/img/logo.png" alt="Logo IFVERDE"></a>
@@ -22,6 +27,9 @@
                     <li><a href="/calendario">📅 Calendário</a></li>
                     <li><a href="/historico">📊 Relatórios</a></li>
                     <li><a href="/manual">📖 Manual</a></li>
+                    <li>
+                        <button type="button" id="theme-toggle" class="btn btn-secondary btn-sm" style="padding: 0.5rem 0.8rem; margin-right: 10px; font-size: 0.85rem;">☀️ Tema Claro</button>
+                    </li>
                     <li>
                         <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
                             <button type="submit"
@@ -75,7 +83,7 @@
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(listaDeProdutos)}">
-                            <td colspan="5" class="text-center">Nenhum produto cadastrado. Clique em "Novo Produto" para
+                            <td colspan="5" class="text-center">Nenhuns produto cadastrado. Clique em "Novo Produto" para
                                 começar!</td>
                         </tr>
                     </tbody>
@@ -198,6 +206,7 @@
             html2pdf().set(opt).from(element).save();
         }
     </script>
+    <script src="/javascript/script.js"></script>
 </body>
 
 </html>

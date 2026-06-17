@@ -92,6 +92,11 @@
 </head>
 
 <body>
+    <script>
+        if (localStorage.getItem('ifverde-theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+    </script>
     <header>
         <div class="container">
             <a href="/"><img src="/img/logo.png" alt="Logo IFVERDE"></a>
@@ -104,6 +109,9 @@
                     <li><a href="/calendario">📅 Calendário</a></li>
                     <li><a href="/historico">📊 Relatórios</a></li>
                     <li><a href="/manual">📖 Manual</a></li>
+                    <li>
+                        <button type="button" id="theme-toggle" class="btn btn-secondary btn-sm" style="padding: 0.5rem 0.8rem; margin-right: 10px; font-size: 0.85rem;">☀️ Tema Claro</button>
+                    </li>
                     <li>
                         <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
                             <button type="submit"
@@ -208,7 +216,7 @@
                 </div>
 
                 <div class="tip">
-                    💡 Dica: Quanto mais despesas você registra, mais precisa seus números ficam. Se você não lança aquele adubo de R$ 50, o lucro fica inflado.
+                    💡 Dica: Quanto mais despesas você registra, mais precisos seus números ficam. Se você não lança aquele adubo de R$ 50, o lucro fica inflado.
                 </div>
 
                 <div style="margin-top: 1rem;">
@@ -304,7 +312,7 @@
 
                 <div class="highlight-box" style="margin-bottom: 1rem;">
                     <strong style="color: #4ade80;">Os eventos do calendário desaparecem?</strong>
-                    <p style="margin-top: 0.5rem; color: #e2e8f0;">Eles ficam no seu navegador. Se você limpador o cache ou histórico (tipo, "limpar dados de navegação"), os eventos somem. Mas se você só fecha a aba e abre de novo, fica tudo lá.</p>
+                    <p style="margin-top: 0.5rem; color: #e2e8f0;">Eles ficam no seu navegador. Se você limpar o cache ou histórico (tipo, "limpar dados de navegação"), os eventos somem. Mas se você só fecha a aba e abre de novo, fica tudo lá.</p>
                 </div>
 
                 <div class="highlight-box">
@@ -318,7 +326,7 @@
 
                 <ul>
                     <li><strong>Atualizar tudo regularmente:</strong> Quanto mais recentes os dados, melhor você controla o negócio. Reserve 5 minutos por dia pra lançar as coisas.</li>
-                    <li><strong>Exportar relatórios periodicamente:</strong> No final do mês, gere um PDF do estoque e do extrato. Você consegue ver trends e planeja melhor.</li>
+                    <li><strong>Exportar relatórios periodicamente:</strong> No final do mês, gere um PDF do estoque e do extrato. Você consegue ver tendências e planeja melhor.</li>
                     <li><strong>Usar a descrição das vendas:</strong> Se escrever "vendido na feira" ou "cliente João", dá pra entender depois pra quem você vende mais.</li>
                     <li><strong>Registrar tudo que gasta:</strong> Até aquele adubo de R$ 15. Despesa pequena somada vira número grande, e o lucro real é só vendas menos tudo isso.</li>
                     <li><strong>Checar o estoque regularmente:</strong> Se o sistema fala que tem 50 kg mas só tem 30 na sua casa, alguém comeu ou esqueceu de lançar uma venda. Melhor ajustar.</li>
@@ -336,6 +344,7 @@
     <footer>
         <p>&copy; 2025 IFVerde. Feito pra ajudar quem planta.</p>
     </footer>
+    <script src="/javascript/script.js"></script>
 </body>
 
 </html>
